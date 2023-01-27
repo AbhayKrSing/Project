@@ -1,0 +1,12 @@
+const express=require('express')
+const router=require('./routes/User.js')
+const fs=require('fs')
+const path=require('path')
+const app=express()
+app.use(express.static('static'))
+app.set(express.json())
+app.use(router)
+app.set('view engine','pug')
+app.set('views',path.join(__dirname,'views'))
+
+app.listen(80)

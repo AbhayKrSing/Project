@@ -1,0 +1,10 @@
+body {
+    background: linear-gradient(to left,
+            rgba(0, 0, 0, 0.81) 0%,
+            rgba(0, 0, 0, 0.37) 30%,
+            rgba(0, 0, 0, 0.358) 40%,
+            rgba(0, 0, 0, 0.789) 90%);
+ z-index: -1;
+}
+
+/* #cc2b5e → #753a88 */
