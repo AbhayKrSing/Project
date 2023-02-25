@@ -9,3 +9,33 @@ body {
     bottom: 0;
     width: 100%;
 }
+
+.xyz {
+    width: 15rem;
+    height: 15rem;
+    position: absolute;
+    bottom: 7vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    background: #ebc934;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 30%;
+    opacity: 0.5
+}
+p{
+    font-weight: 900;
+    font-size: 30px;
+    margin: 0;
+}
+img {
+    width: auto;
+    height: 30px;
+    height: 110px;
+  }
+.id3{
+    font-size:17px ;
+}  

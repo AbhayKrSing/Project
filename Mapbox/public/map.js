@@ -1,4 +1,3 @@
-
 let takeout = async (place) => {
     const options = {
         method: 'GET',
@@ -25,7 +24,7 @@ const map = new mapboxgl.Map({
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/streets-v12',
     center: [78, 24],
-    zoom: 6
+    zoom: 3
 });
 
 
@@ -40,23 +39,38 @@ const geocoder = new MapboxGeocoder({
 
 map.addControl(geocoder);
 geocoder.on('result', function (result) {  //stackoverflow
-    // map.on('click', () => {
+    addListener(result)
     const element = document.createElement('div')
     const targetMarker = document.getElementsByClassName('mapboxgl-marker')[0]
     const child = document.getElementsByTagName('svg')[0]
     targetMarker.insertBefore(element, child)
     element.setAttribute('class', 'xyz')
-    addListener(result, text = 'hello world!!!')
-    // });
+
 })
 
-async function addListener(result, text) {
+async function addListener(result) {
     // console.log(result.result.text)
-    const wheatherresult = await takeout(result.result.text)
-    setTimeout(() => {
-        document.getElementsByClassName('xyz')[0].setAttribute('style', 'width:15rem;height:15rem;background-color:grey;position:absolute; bottom:10vh;text-align:center;')
-        const textNode = text
-        document.getElementsByClassName('xyz')[0].innerHTML = wheatherresult.current.temp_c
-    }, 3000)
+    try {
+        const wheatherresult = await takeout(result.result.text)
+
+        // document.getElementsByClassName('xyz')[0].setAttribute('style', '')  //jarurat nhi thi iski ab.(kyuki style.css mey .xyz selector use karke code likh diya hai)
+        // document.getElementsByClassName('xyz')[0].innerHTML = wheatherresult.current.temp_c
+        for (let i = 1; i <= 5; i++) {
+            document.getElementsByClassName('xyz')[0].innerHTML += `<p class=id${i}></p>`
+        }
+        document.getElementsByClassName(`id1`)[0].innerHTML = wheatherresult.location.name
+        document.getElementsByClassName(`id2`)[0].innerHTML = `<img>`
+        // document.getElementsByTagName('img')[0].src = 'https://clipground.com/images/coconut-tree-vector-clipart-8.png'
+        document.getElementsByTagName('img')[0].src = wheatherresult.current.condition.icon
+        document.getElementsByClassName(`id3`)[0].innerHTML = wheatherresult.current.condition.text
+        document.getElementsByClassName(`id4`)[0].innerHTML = wheatherresult.current.temp_c + "℃"
+        document.getElementsByClassName(`id5`)[0].innerHTML = wheatherresult.current.temp_f + " F"
+
+
+    } catch (error) {
+        document.getElementsByClassName('xyz')[0].setAttribute('style', 'justify-content:center')
+        document.getElementsByClassName('xyz')[0].innerHTML += `<p>Sorry Info Not Found</p>`
+    }
+
 }
 
