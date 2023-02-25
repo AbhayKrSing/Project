@@ -7,7 +7,7 @@ let takeout = async (place) => {
             'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
         }
     };
-    return  fetch(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${place}&days=1`, options)
+    return fetch(`https://weatherapi-com.p.rapidapi.com/forecast.json?q=${place}&days=1`, options)
         .then(response => response.json())
         .then(response => {
             console.log(response)
@@ -54,7 +54,7 @@ async function addListener(result, text) {
     // console.log(result.result.text)
     const wheatherresult = await takeout(result.result.text)
     setTimeout(() => {
-        document.getElementsByClassName('xyz')[0].setAttribute('style', 'width:20rem;height:15rem;background-color:grey;position:absolute; bottom:10vh;text-align:center;')
+        document.getElementsByClassName('xyz')[0].setAttribute('style', 'width:15rem;height:15rem;background-color:grey;position:absolute; bottom:10vh;text-align:center;')
         const textNode = text
         document.getElementsByClassName('xyz')[0].innerHTML = wheatherresult.current.temp_c
     }, 3000)
