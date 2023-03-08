@@ -1,6 +1,7 @@
 import React from 'react'
+import Download from './Download'
 
-const Form = () => {
+const Form = (props) => {
     const handlesubmmit = (e) => {
         e.preventDefault()
         // let data = new FormData(e.target)
@@ -20,11 +21,13 @@ const Form = () => {
         .then((response) => response.json())
         .then((response) => {
             console.log(response)
+            props.setcondition(false)
         })
 
     }
     return (
-        <div className="form">
+        <>
+      {props.condition &&  <div className="form">
             <div className='w-25 mx-auto'>
                 <form className="mb-3" onSubmit={handlesubmmit} encType='multipart/form-data'>
                     <label htmlFor="formFile" className="form-label"></label>
@@ -37,7 +40,9 @@ const Form = () => {
                 <button type='submit'>Submit</button>
             </form> */}
             </div>
-        </div>
+        </div>}
+        {!props.condition && <Download condition={props.condition} setcondition={props.setcondition}/>}
+        </>
     )
 }
 
