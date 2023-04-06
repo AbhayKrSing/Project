@@ -1,2 +1,13 @@
+const express=require('express')
+const app=express()
 const connect=require('./Database')
-connect()
+const Usersign_up=require('./Route/User')
+app.use(express.json())
+connect()  //To connect to database
+app.use('/user',Usersign_up)
+app.get('/',(req,res)=>{
+    res.send('hello')
+})
+app.listen(80)
+
+
