@@ -1,11 +1,19 @@
 const express = require('express')
 const router = express.Router()
-
+const { body, validationResult } = require('express-validator');
 const run = require('../Auth/SignUp')
 const runlogin = require('../Auth/Login')
 
 //1.Logup or signup 
-router.post('/Logup', async (req, res) => {
+router.post('/Logup',[ // username must be an email
+body('Name').isAlpha(),
+// password must be at least 5 chars long
+body('Email').isEmail(),
+body('password').isLength({ min: 7 })], async (req, res) => {
+     const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { Name, Email, password } = req.body
     let token = await run(Name, Email, password)
     if (token) {
@@ -16,7 +24,12 @@ router.post('/Logup', async (req, res) => {
     }
 })
 //2. Login 
-router.post('/login', async(req, res) => {
+router.post('/login',[ 
+body('Email').isEmail()], async(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { Email, password } = req.body
      let token= await runlogin(Email, password)
      if(token){
