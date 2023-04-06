@@ -1,5 +1,6 @@
 const express=require('express')
 const app=express()
+require('dotenv').config()
 const connect=require('./Database')
 const Usersign_up=require('./Route/User')
 app.use(express.json())

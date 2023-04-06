@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require('../model/LogUp')
-require('dotenv').config()
+
 const run = async (name,email,password) => {
     try {
         let user = new User({ Name: name, Email: email, password: password })
