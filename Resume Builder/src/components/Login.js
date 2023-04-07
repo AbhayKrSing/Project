@@ -20,7 +20,7 @@ const Login = (props) => {
       <div className='w-50 main-login container-fluid'>
         <p>Resume builder</p>
         <h1>Welcome to builder</h1>
-        <form className='w-75 mx-auto my-5' onSubmit={gotoserver} encType="form-data">
+        <form className='w-75 mx-auto my-5' onSubmit={gotoserver} encType="multipart/form-data">
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
             <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='Email'/>            <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
