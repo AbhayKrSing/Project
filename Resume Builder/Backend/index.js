@@ -1,5 +1,7 @@
 const express=require('express')
 const app=express()
+const cors = require('cors')
+app.use(cors())
 require('dotenv').config()
 const connect=require('./Database')
 const Usersign_up=require('./Route/User')
