@@ -1,6 +1,7 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
   const gotoserver = async(e) => {
     e.preventDefault()
     let data = new FormData(e.target)
@@ -29,6 +30,8 @@ const Login = () => {
             <input type="password" className="form-control" id="exampleInputPassword1" name='password'/>        </div>
 
           <button type="submit" className="btn btn-primary">Login</button>
+          <Link className="btn btn-primary mx-2" to='/signup'>Signup</Link>
+
         </form>
       </div>
 

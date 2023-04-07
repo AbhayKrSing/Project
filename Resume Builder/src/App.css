@@ -6,7 +6,9 @@ body::before {
   left: 0;
   height: 100vh;
   z-index: -1;
-  background: rgba(11, 2, 2, 0.573);
+  background-color: rgba(0, 0, 0, 0.671);
+ 
+
 }
 
 .container {
@@ -25,6 +27,8 @@ body::before {
   #42f5cb 50%,
       rgba(255, 255, 255, 0.886) 50%,
       rgba(255, 255, 255, 0.886) 100%);
+ 
+      
 }
 .main-login p{
     font-size: 6ch;
