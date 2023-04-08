@@ -43,3 +43,12 @@ body::before {
   width: 100%;
   height: 100vh;
 }
+.slider-img{
+width: 90%;
+height: 90vh;
+}
+.resume-1{
+  height: 80vh;
+  border-radius: 10px;
+  width: 50%;
+}
