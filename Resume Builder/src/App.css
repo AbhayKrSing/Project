@@ -7,7 +7,7 @@ body::before {
   height: 100vh;
   z-index: -1;
   background-color: rgba(0, 0, 0, 0.671);
- 
+
 
 }
 
@@ -23,31 +23,37 @@ body::before {
   width: 100%;
   border-radius: 10px;
   background: linear-gradient(to right,
-  #42f5cb 0%,
-  #42f5cb 50%,
+      #42f5cb 0%,
+      #42f5cb 50%,
       rgba(255, 255, 255, 0.886) 50%,
       rgba(255, 255, 255, 0.886) 100%);
- 
-      
+
+
 }
-.main-login p{
-    font-size: 6ch;
-    text-align: center;
-    font-family:Impact, 'Arial Narrow Bold', sans-serif;
+
+.main-login p {
+  font-size: 6ch;
+  text-align: center;
+  font-family: Impact, 'Arial Narrow Bold', sans-serif;
 }
-.main-login h1{
+
+.main-login h1 {
   text-align: center;
 }
-.auth{
-  background-color: white;
+
+.auth {
+  background: linear-gradient(to right, #00fcf4 0%, #69dfff 30%, #69d5ff 33%, #69d5ff 60%, #69d5ff 66%, #00fcf4 100%);
   width: 100%;
   height: 100vh;
 }
-.slider-img{
-width: 90%;
-height: 90vh;
+
+.slider-img {
+  width: 90%;
+  height: 90vh;
 }
-.resume-1{
+
+.resume-1 {
+  background-color: rgba(255, 255, 255, 0.432);
   height: 80vh;
   border-radius: 10px;
   width: 50%;

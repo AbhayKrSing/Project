@@ -2,7 +2,7 @@ import React from 'react'
 
 const Resume = () => {
   return (
-    <div className="resume-1 container-fluid bg-success mt-5">
+    <div className="resume-1 container-fluid mt-3">
       <div className="row">
         <div className="col-lg-8 mx-auto">
           <h1 className="text-center mb-5">John Doe</h1>

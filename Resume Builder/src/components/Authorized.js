@@ -1,10 +1,12 @@
 import React from 'react'
 import Resume from './Resume'
+import Resume2 from './Resume_template/Resume2'
+import Resume3 from './Resume_template/Resume3'
 
 const Authorized = () => {
   return (<>
     <div className='auth'>
-      <h1 className='text-center'>Select template</h1>
+      <h1 className='text-center p-3 '>Select template</h1>
 
       <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-indicators">
@@ -17,10 +19,11 @@ const Authorized = () => {
             <Resume/>      
           </div>
           <div className="carousel-item">
-            <img src="https://th.bing.com/th/id/R.14692498181e6bdfe489d518f35b5e10?rik=IznoVeXPefr6WQ&riu=http%3a%2f%2fi.ytimg.com%2fvi%2fZADf8p5-c2s%2f0.jpg&ehk=Nwg8NjOZvCbpc%2bQpe6fFKkQM5FxuZiPH0BOYLBMKFB4%3d&risl=&pid=ImgRaw&r=0" className="d-block slider-img mx-auto" alt="img" />
+         <Resume2/>
+           
           </div>
           <div className="carousel-item">
-            <img src="https://th.bing.com/th/id/OIP.TA-__fSyGOWGEo_Qc_tYEAHaEU?pid=ImgDet&w=1024&h=597&rs=1" className="d-block slider-img mx-auto" alt="img" />
+          <Resume3/>
           </div>
         </div>
         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
