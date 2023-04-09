@@ -3,10 +3,10 @@ import Resume from './Resume'
 import Resume2 from './Resume_template/Resume2'
 import Resume3 from './Resume_template/Resume3'
 
-const Authorized = () => {
+const Authorized = (props) => {
   return (<>
     <div className='auth'>
-      <h1 className='text-center p-3 '>Select template</h1>
+      <h1 className='text-center p-2'>Select template</h1>
 
       <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-indicators">
@@ -16,22 +16,22 @@ const Authorized = () => {
         </div>
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <Resume/>      
+            <Resume settemplate={props.settemplate}/>      
           </div>
           <div className="carousel-item">
-         <Resume2/>
+         <Resume2 settemplate={props.settemplate}/>
            
           </div>
           <div className="carousel-item">
-          <Resume3/>
+          <Resume3 settemplate={props.settemplate}/>
           </div>
         </div>
         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-          <span className="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+          <span className="carousel-control-prev-icon bg-dark rounded-pill" aria-hidden="true"></span>
           <span className="visually-hidden">Previous</span>
         </button>
         <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-          <span className="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+          <span className="carousel-control-next-icon bg-dark rounded-pill" aria-hidden="true"></span>
           <span className="visually-hidden">Next</span>
         </button>
       </div>
