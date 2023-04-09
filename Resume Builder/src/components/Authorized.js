@@ -2,9 +2,11 @@ import React from 'react'
 import Resume from './Resume'
 import Resume2 from './Resume_template/Resume2'
 import Resume3 from './Resume_template/Resume3'
+import Transitions from './Transition'
 
 const Authorized = (props) => {
   return (<>
+  <Transitions>
     <div className='auth'>
       <h1 className='text-center p-2'>Select template</h1>
 
@@ -36,7 +38,7 @@ const Authorized = (props) => {
         </button>
       </div>
     </div>
-
+</Transitions>
   </>
   )
 }
