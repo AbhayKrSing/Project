@@ -59,14 +59,17 @@ body::before {
   overflow: hidden;
 }
 .template{
+  width: 70%;
   background: linear-gradient(to right, #00fcf4 0%, #69dfff 30%, #69d5ff 33%, #69d5ff 60%, #69d5ff 66%, #00fcf4 100%);
   height:fit-content;
 }
 .resume-2{
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
   background-color: rgba(255, 255, 255, 0.432);
   height: fit-content;
   border-radius: 10px;
-  width: 50%;
 }
 .carousel-item{
   padding: 0 5vh 10vh 5vh;

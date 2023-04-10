@@ -1,6 +1,5 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom"
-// import Transitions from './Transition'
 const Resume = (props) => {
   const navigate = useNavigate();
   const gototemplate = () => {
