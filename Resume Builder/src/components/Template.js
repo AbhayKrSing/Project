@@ -1,12 +1,18 @@
 import React,{useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
+import parse from 'html-react-parser';
 import Transitions from './Transition'
 import Editform from './Editform'
+
 const Template = (props) => {
-  const navigate=useNavigate()
+  // const navigate=useNavigate()
   useEffect(() => {
     if(!props.template){
-      navigate('/auth')
+      props.settemplate(parse(localStorage.getItem('page')))
+    
+    }
+    else{  
+      localStorage.setItem('page', document.getElementsByClassName('template')[0].innerHTML)
     }
     // eslint-disable-next-line
   }, [props.template]);

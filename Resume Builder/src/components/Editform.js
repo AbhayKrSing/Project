@@ -11,9 +11,9 @@ const Editform = (props) => {
 
     const handlechange = (e) => {
         setedit({ ...edit, [e.target.name]: e.target.value })
-        // let deepCopyObj ={...a};
-        // // deepCopyObj= JSON.parse(JSON.stringify(deepCopyObj))  // same as  let deepCopyObj ={...a};
-        // props.setedit(deepCopyObj)
+        // let deepCopyObj ={...edit};
+        // deepCopyObj= JSON.parse(JSON.stringify(deepCopyObj))  // same as  let deepCopyObj ={...a};
+        // setedit(deepCopyObj)
     }
 
     return (
