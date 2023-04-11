@@ -1,10 +1,11 @@
 import React from 'react'
-import Resume from './Resume'
+import Resume from './Resume_template/Resume'
 import Resume2 from './Resume_template/Resume2'
 import Resume3 from './Resume_template/Resume3'
 import Transitions from './Transition'
 
 const Authorized = (props) => {
+  
   return (<>
   <Transitions>
     <div className='auth'>
@@ -18,14 +19,14 @@ const Authorized = (props) => {
         </div>
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <Resume settemplate={props.settemplate}/>      
+            <Resume settemplate={props.settemplate} edit={props.edit} setedit={props.setedit}/>      
           </div>
           <div className="carousel-item">
-         <Resume2 settemplate={props.settemplate}/>
+         <Resume2 settemplate={props.settemplate} edit={props.edit} setedit={props.setedit}/>
            
           </div>
           <div className="carousel-item">
-          <Resume3 settemplate={props.settemplate}/>
+          <Resume3 settemplate={props.settemplate} edit={props.edit} setedit={props.setedit}/>
           </div>
         </div>
         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

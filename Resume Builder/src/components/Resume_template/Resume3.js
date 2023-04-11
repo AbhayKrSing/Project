@@ -2,6 +2,8 @@ import React from 'react'
 import { useNavigate } from "react-router-dom"
 const Resume3 = (props) => {
   const navigate = useNavigate();
+  const { name,  work,  Address, summary, education, skills } = props.edit
+
 
     const gototemplate=()=>{
      props.settemplate(<div className="resume-2 container-fluid p-5">
@@ -9,9 +11,9 @@ const Resume3 = (props) => {
          <div className="col-lg-4">
              <div className="text-center">
                  <img src="https://via.placeholder.com/150" alt="profile" className="rounded-circle mb-3"/>
-                 <h2 className="mb-2">John Doe</h2>
-                 <p className="mb-0">Software Developer</p>
-                 <p className="text-muted">New York, NY</p>
+                 <h2 className="mb-2">{name}</h2>
+                 <p className="mb-0">{work}</p>
+                 <p className="text-muted">{Address}</p>
                  <ul className="list-inline mb-0">
                      {/* <li className="list-inline-item"><a href="#">LinkedIn</a></li>
                      <li className="list-inline-item"><a href="#">GitHub</a></li>
@@ -21,12 +23,12 @@ const Resume3 = (props) => {
          </div>
          <div className="col-lg-8">
              <h2 className="mb-4">Summary</h2>
-             <p className="lead mb-4">Results-driven software developer with 5+ years of experience in full-stack web development. Skilled in JavaScript, React, Node.js, Python, and SQL. Passionate about creating scalable and efficient web applications.</p>
+             <p className="lead mb-4">{summary}</p>
              <h2 className="mb-4">Education</h2>
              <div className="media mb-4">
                  <img src="https://via.placeholder.com/50" alt="university logo" className="align-self-center mr-3"/>
                  <div className="media-body">
-                     <h5 className="mt-0 mb-1">Bachelor of Science in Computer Science</h5>
+                     <h5 className="mt-0 mb-1">{education}</h5>
                      <p className="font-weight-bold">University of California, Berkeley</p>
                      <p><em>August 20XX - May 20XX</em></p>
                      <p>Relevant courses: Algorithms, Data Structures, Computer Networks, Database Systems</p>
@@ -67,12 +69,12 @@ const Resume3 = (props) => {
                         <div className="col-md-6">
                             <h5>Programming Languages</h5>
                             <ul>
-                                <li>Java</li>
-                                <li>C++</li>
+                                <li>{skills}</li>
+                                <li>{skills}</li>
                                 <li>Python</li>
                                 <li>JavaScript</li>
                                 <li>Spring</li>
-                                <li>Hibernate</li>
+                                <li>{skills}</li>
                                 <li>Django</li>
                                 <li>AngularJS</li>
                             </ul>

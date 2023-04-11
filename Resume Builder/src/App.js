@@ -9,7 +9,7 @@ import Template from './components/Template';
 
 function App() {
   const [template, settemplate] = useState('')
-  const [length, setlength] = useState(0)
+  const [edit, setedit] = useState({name:'Name',email:'Email',work:'Your work',phone:'number',Address:'address',website:'your website',summary:'summary of your career',education:'Education',skills:'skills'})
   return (
     <>
       <BrowserRouter>
@@ -17,8 +17,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/auth" element={<Authorized settemplate={settemplate} template={template} />} />
-          <Route path="/template" element={<Template settemplate={settemplate} template={template} setlength={setlength} length={length} />} /> 
+          <Route path="/auth" element={<Authorized settemplate={settemplate} template={template} edit={edit} setedit={setedit}/>} />
+          <Route path="/template" element={<Template settemplate={settemplate} template={template} edit={edit} setedit={setedit} />} /> 
         </Routes>
 
       </BrowserRouter>
