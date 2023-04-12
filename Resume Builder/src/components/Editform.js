@@ -1,24 +1,17 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 const Editform = (props) => {
-   let {edit,setedit}=props
-    useEffect(() => {   
-            let copy=edit
-           setedit(copy);
-        // eslint-disable-next-line
-    }, [edit])
+
 
 
     const handlechange = (e) => {
-        setedit({ ...edit, [e.target.name]: e.target.value })
-        // let deepCopyObj ={...edit};
-        // deepCopyObj= JSON.parse(JSON.stringify(deepCopyObj))  // same as  let deepCopyObj ={...a};
-        // setedit(deepCopyObj)
+        props.setedit({ ...props.edit, [e.target.name]: e.target.value })
     }
 
     return (
         <div>
             <form>
+                <h1>Fill Information</h1>
                 <div className="mb-3">
                     <label htmlFor="exampleInputName1" className="form-label">Name</label>
                     <input type="text" className="form-control" id="exampleInputName1" aria-describedby="emailHelp" onChange={handlechange} name='name' />
