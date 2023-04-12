@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom"
 import Editform from '../Editform'
+import Transitions from '../Transition'
 const Resume = (props) => {
   const { name, email, work, phone, Address, education, skills } = props.edit
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Resume = (props) => {
 
   return (
     <>
+    <Transitions>
       <div id='after_clicked' className={!props.condition?'after_click':''}>
         <div className={`${props.condition?'resume-1':'resume-2'} container-fluid mt-1`} >
           <div className="row" onClick={props.condition?handleclick:()=>{}}>
@@ -49,6 +51,7 @@ const Resume = (props) => {
         {!props.condition && <Editform edit={props.edit} setedit={props.setedit} />}
         </div>
       </div>
+      </Transitions>
     </>
   )
 }

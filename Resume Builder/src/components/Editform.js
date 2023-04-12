@@ -10,7 +10,7 @@ const Editform = (props) => {
 
     return (
         <div>
-            <form>
+            <form className='container-fluid'>
                 <h1>Fill Information</h1>
                 <div className="mb-3">
                     <label htmlFor="exampleInputName1" className="form-label">Name</label>

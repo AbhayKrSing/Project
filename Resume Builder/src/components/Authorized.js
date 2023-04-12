@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Resume from './Resume_template/Resume'
 import Resume2 from './Resume_template/Resume2'
 import Resume3 from './Resume_template/Resume3'
+import {useNavigate } from "react-router-dom";
 import Transitions from './Transition'
-// import Editform from './Editform'
 const Authorized = (props) => {
+  const navigate = useNavigate();
   const [condition, setcondition] = useState(true)
-  // const handleclick = (e) => {
-
-  //   window.location.reload()
-
-  // }
+  useEffect(() => {
+    if(!localStorage.getItem('token')){
+        navigate('/')   
+    }
+     // eslint-disable-next-line
+  },[])
   return (<>
     <Transitions>
       {condition && <div className='auth'>
