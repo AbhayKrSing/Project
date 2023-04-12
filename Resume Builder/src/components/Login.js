@@ -14,7 +14,9 @@ const Login = (props) => {
       })
       data = await res.json()
       if (data) {
-        navigate('/auth')
+        localStorage.setItem('token',data.token)
+        props.seturl(data.token)
+        navigate(`/auth`)
       }
     } catch (error) {
      console.log(error.message)
