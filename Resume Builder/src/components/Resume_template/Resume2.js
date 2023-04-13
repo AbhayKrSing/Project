@@ -1,21 +1,22 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { useNavigate } from "react-router-dom"
 import Editform from '../Editform'
 import Transitions from '../Transition'
 
 const Resume2 = (props) => {
     const navigate = useNavigate();
-    const handleclick = () => {
-        navigate('/auth/resume2')
-        props.setcondition(true)
-    }
     const { name, email, work, phone, Address, website, summary, education, skills } = props.edit
-
+    useEffect(() => {
+        if(!localStorage.getItem('token')){
+            navigate('/')   
+        }
+         // eslint-disable-next-line
+      },[])
     return (
         <>  
         <Transitions><div id='after_clicked' className={!props.condition?'after_click':''}>
             <div className={`${props.condition?'resume-1':'resume-2'} container-fluid mt-1`}>
-                <div className="row justify-content-center" onClick={props.condition?handleclick:()=>{}} >
+                <div className="row justify-content-center" onClick={props.condition?()=>{props.handleclick('2')}:()=>{}} >
                     <div className="col-lg-8">
                         <div className="text-center mb-5">
                             <h1>{name}</h1>
