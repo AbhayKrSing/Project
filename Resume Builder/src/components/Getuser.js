@@ -1,19 +1,27 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 const getUser = () => {
-    // const element = <FontAwesomeIcon icon={faEnvelope} />
+    const logout=()=>{
+        localStorage.removeItem('token')
+    }
+    const handleclick=async()=>{
+        const res = await fetch('http://localhost:/user/getuser', {
+            method: 'POST',
+            headers: { 'auth-token': localStorage.getItem('token') },
+        })
+      const  data =await res.json()
+        console.log(data)
+    }
     return (
         <React.Fragment>
             <div className="dropdown">
                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-user"></i>
+                <i className="fa-solid fa-user"></i>
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><Link className="dropdown-item" to="#">Profile</Link></li>
+                    <li><Link className="dropdown-item" to="/profile" onClick={handleclick}>Profile</Link></li>
                     <li><Link className="dropdown-item" to="#">About </Link></li>
-                    <li><Link className="dropdown-item" to="#">Logout</Link></li>
+                    <li><Link className="dropdown-item" to="/" onClick={logout}>Logout</Link></li>
                 </ul>
             </div>
         </React.Fragment>

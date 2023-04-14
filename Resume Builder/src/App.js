@@ -10,14 +10,13 @@ import Resume3 from './components/Resume_template/Resume3';
 
 
 function App() {
-  const [url, seturl] = useState('')
   const [edit, setedit] = useState({name:'Name',email:'Email',work:'Your work',phone:'number',Address:'address',website:'your website',summary:'summary of your career',education:'Education',skills:'skills'})
   return (
     <>
       <BrowserRouter>
 
         <Routes>
-          <Route path="/" element={<Login  seturl={seturl} url={url}/>} />
+          <Route path="/" element={<Login/>} />
           <Route path="/signup" element={<Signup />} />
           <Route path='/auth' element={<Authorized  edit={edit} setedit={setedit} />} />
           <Route path='/auth/resume' element={<Resume  edit={edit} setedit={setedit}/>}/>

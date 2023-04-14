@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = (props) => {
+const Login = () => {
   const navigate = useNavigate();
   const gotoserver = async (e) => {
     try {
@@ -13,9 +13,9 @@ const Login = (props) => {
         body: data
       })
       data = await res.json()
-      if (data) {
+      console.log(data)
+      if (data.success) {
         localStorage.setItem('token',data.token)
-        props.seturl(data.token)
         navigate(`/auth`)
       }
     } catch (error) {
