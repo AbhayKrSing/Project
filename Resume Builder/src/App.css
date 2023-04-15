@@ -81,3 +81,14 @@ body::before {
   top: 2vw;
   
 }
+.profile{
+  height: 50vh;
+  border-radius: 10px;
+
+}
+.items{
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+

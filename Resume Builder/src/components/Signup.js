@@ -1,16 +1,27 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+    const navigate = useNavigate();
     const gotoserver = async (e) => {
-        e.preventDefault()
-        let data = new FormData(e.target)
-        console.log(data)
-        const res = await fetch('http://localhost:/user/Logup', {
-            method: 'POST',
-            body: data
-        })
-        data = await res.json()
-        console.log(data)
+        try {
+            e.preventDefault()
+            let data = new FormData(e.target)
+            console.log(data)
+            const res = await fetch('http://localhost:/user/Logup', {
+                method: 'POST',
+                body: data
+            })
+            data = await res.json()
+            console.log(data)
+            if (data.success) {
+                localStorage.setItem('token',data.token)
+                navigate(`/auth`)
+              }
+        } catch (error) {
+            console.log(error.message)
+        }
+      
     }
     return (
         <div className="container d-flex align-items-center">
