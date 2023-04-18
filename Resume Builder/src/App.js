@@ -8,6 +8,7 @@ import Resume from './components/Resume_template/Resume';
 import Resume2 from './components/Resume_template/Resume2';
 import Resume3 from './components/Resume_template/Resume3';
 import Profile from './components/Profile';
+import Page404 from './components/Page404';
 
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
           <Route path='/auth/resume2' element={<Resume2  edit={edit} setedit={setedit}/>}/>
           <Route path='/auth/resume3' element={<Resume3  edit={edit} setedit={setedit}/>}/>
           <Route path='/user/profile' element={<Profile userdata={getUserdata} edit={edit} setedit={setedit}/>}/>
-
+          <Route path="*" element={<Page404/>} />
         </Routes>
 
       </BrowserRouter>

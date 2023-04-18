@@ -92,3 +92,6 @@ body::before {
   height: 100%;
 }
 
+.alert-2{
+  height: 7px;
+}

@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Profile = ({ userdata, edit, setedit }) => {
   const [isMobile, setIsMobile] = useState(false)
+  const navigate=useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/')
+      return
+    }
     const fetchData = async () => {
       const data = await userdata()
-      setedit({Name:data.Name,Email:data.Email})
+      setedit({ Name: data.Name, Email: data.Email })
     }
     fetchData()
     // eslint-disable-next-line
