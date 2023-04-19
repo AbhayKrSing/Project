@@ -33,14 +33,14 @@ const Authorized = (props) => {
           </div>
           <div className="carousel-inner">
             <div className="carousel-item active" >
-              <Resume edit={props.edit} setedit={props.setedit}  condition={condition}  handleclick={handleclick} />
+              <Resume edit={props.edit} setedit={props.setedit}  condition={condition}  handleclick={handleclick} createPDF={props.createPDF} />
             </div>
             <div className="carousel-item" >
-              <Resume2 edit={props.edit} setedit={props.setedit} condition={condition}  handleclick={handleclick}/>
+              <Resume2 edit={props.edit} setedit={props.setedit} condition={condition}  handleclick={handleclick} createPDF={props.createPDF}/>
 
             </div>
             <div className="carousel-item" >
-              <Resume3 edit={props.edit} setedit={props.setedit} condition={condition}  handleclick={handleclick}/>
+              <Resume3 edit={props.edit} setedit={props.setedit} condition={condition}  handleclick={handleclick} createPDF={props.createPDF}/>
             </div>
           </div>
           <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

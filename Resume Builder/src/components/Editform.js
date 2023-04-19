@@ -1,16 +1,17 @@
 import React from 'react'
 
 const Editform = (props) => {
-
-
-
+    const sendPDF = (e) => {
+        e.preventDefault()
+        props.createPDF()
+    }
     const handlechange = (e) => {
         props.setedit({ ...props.edit, [e.target.name]: e.target.value })
     }
 
     return (
         <div>
-            <form className='container-fluid'>
+            <form className='container-fluid' onSubmit={sendPDF}>
                 <h1>Fill Information</h1>
                 <div className="mb-3">
                     <label htmlFor="exampleInputName1" className="form-label">Name</label>
