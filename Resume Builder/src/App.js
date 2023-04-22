@@ -13,11 +13,11 @@ import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 function App() {
   const createPDF = async () => {
-    const canvas = await html2canvas(document.querySelector("#pdf"));
+    const canvas = await html2canvas(document.querySelector("#pdf"));  //HTML element ko target karke canvas mey convert kar rhe hai.
     console.log(canvas)
-    const imgData = canvas.toDataURL("image/png");
-    var imgWidth = 210;
-    var pageHeight = 295;
+    const imgData = canvas.toDataURL("image/png"); //Returns the content of the current canvas as an image that you can use as a source for another canvas or an HTML element.
+    var imgWidth = 210;   //Img height equal to A4 paper width
+    var pageHeight = 295;  // page height equal to A4 paper height
     var imgHeight = canvas.height * imgWidth / canvas.width;
     var heightLeft = imgHeight;
 
@@ -27,13 +27,9 @@ function App() {
     doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
     heightLeft -= pageHeight;
 
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      // doc.setFillColor(200, 0, 0);
-      // doc.rect(10, 10, 100, 100, 'F');
+    while (heightLeft >= 0) {   //Yeh bahut mast code hai jisne bhi likha hai.(This add page as well as with the help of positioning by using same imgData we will able to print img of leftover content.)
+      position = heightLeft - imgHeight;  //Always negative (imgHeight > heightLeft)
       doc.addPage();
-      doc.setFillColor(0, 200, 0);
-      doc.rect(10, 10, 100, 100, 'F');
       doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
     }
