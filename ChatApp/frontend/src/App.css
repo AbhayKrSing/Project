@@ -1,9 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;600&display=swap');
 
-.App {
-  min-height: 100vh;
+body {
+  overflow: hidden;
+}
+
+.App::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 120vh;
   background-image: url('./Background.webp');
+  z-index: -1;
   background-size: cover;
   background-position: center;
+  padding-left: calc(100vw - 100%);
+}
 
+.App {
+  padding-left: calc(100vw - 100%);
 }
