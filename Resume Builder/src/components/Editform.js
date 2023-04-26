@@ -9,7 +9,7 @@ const Editform = (props) => {
         props.setedit({ ...props.edit, [e.target.name]: e.target.value })
     }
     const processPhoto = (pics) => {
-        const data = URL.createObjectURL(pics);        //add image to html(important)
+        const data = URL.createObjectURL(pics);        //To create URL for an image or file.
         props.setedit({ pic: data })
     }
 
