@@ -49,6 +49,10 @@ const Editform = (props) => {
                     <label htmlFor="exampleInputSkills1" className="form-label">Skills</label>
                     <input type='text' className="form-control" id="exampleInputSkils1" onChange={handlechange} name='skills' />
                 </div>
+                <div className="mb-3">
+                    <label htmlFor="exampleInputSkills1" className="form-label">Upload Img</label>
+                    <input type='file' className="form-control" accept='image/*' id="exampleInputImg" onChange={handlechange} name='file' />
+                </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         </div>

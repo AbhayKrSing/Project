@@ -22,7 +22,7 @@ const Resume3 = (props) => {
                             <div className="row justify-content-center" onClick={props.condition ? () => { props.handleclick('3') } : () => { }}>
                                 <div className="col-lg-4">
                                     <div className="text-center">
-                                        <img src="https://via.placeholder.com/150" alt="profile" className="rounded-circle mb-3" />
+                                        <img src={"https://via.placeholder.com/150"} alt="profile" className="rounded-circle mb-3" />
                                         <h2 className="mb-2">{name}</h2>
                                         <p className="mb-0">{work}</p>
                                         <p className="text-muted">{Address}</p>
