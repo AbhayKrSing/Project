@@ -21,7 +21,7 @@ function App() {
     var imgHeight = canvas.height * imgWidth / canvas.width;
     var heightLeft = imgHeight;
 
-    var doc = new jsPDF('p', 'mm','',true);
+    var doc = new jsPDF('p', 'mm', '', true);
     var position = 0;
 
     doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
@@ -43,7 +43,7 @@ function App() {
     const data = await res.json()
     return data
   }
-  const [edit, setedit] = useState({ name: 'Name', email: 'Email', work: 'Your work', phone: 'number', Address: 'address', website: 'your website', summary: 'summary of your career', education: 'Education', skills: 'skills' })
+  const [edit, setedit] = useState({ name: 'Name', email: 'Email', work: 'Your work', phone: 'number', Address: 'address', website: 'your website', summary: 'summary of your career', education: 'Education', skills: 'skills', pic: 'pics' })
   return (
     <>
       <BrowserRouter>

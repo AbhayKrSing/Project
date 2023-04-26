@@ -8,6 +8,10 @@ const Editform = (props) => {
     const handlechange = (e) => {
         props.setedit({ ...props.edit, [e.target.name]: e.target.value })
     }
+    const processPhoto = (pics) => {
+        const data = URL.createObjectURL(pics);        //add image to html(important)
+        props.setedit({ pic: data })
+    }
 
     return (
         <div>
@@ -51,7 +55,7 @@ const Editform = (props) => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputSkills1" className="form-label">Upload Img</label>
-                    <input type='file' className="form-control" accept='image/*' id="exampleInputImg" onChange={handlechange} name='file' />
+                    <input type='file' className="form-control" accept='image/*' id="exampleInputImg" onChange={(e) => { processPhoto(e.target.files[0]) }} />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
