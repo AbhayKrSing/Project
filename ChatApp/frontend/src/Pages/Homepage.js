@@ -9,6 +9,7 @@ const Homepage = () => {
       document.body.style.overflow = "auto";
     }
     else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });  //To scroll to top
       document.body.style.overflow = "hidden";
     }
   }

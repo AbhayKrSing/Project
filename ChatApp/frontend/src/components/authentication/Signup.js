@@ -17,7 +17,7 @@ const Signup = () => {
         if (!pic) {
             toast({
                 title: 'Please select image',
-                description: "Account creation Failed due to internal server error",
+                description: "Account creation Failed",
                 status: 'warning',
                 duration: 5000,
                 isClosable: true,
@@ -44,6 +44,13 @@ const Signup = () => {
 
                 .catch(err => {
                     console.error(err.message)
+                    toast({
+                        title: 'Image not uploaded successfully, Try again',
+                        description: "Account creation Failed",
+                        status: 'error',
+                        duration: 5000,
+                        isClosable: true,
+                    })
                     setloading(false)
                 });
         }
@@ -51,7 +58,6 @@ const Signup = () => {
     }
     const handleSubmit = () => {
         const { name, email, password, cpassword, pic } = credentials
-        // console.log(name, email, password, cpassword, pic)
 
         if (!name || !email || !password) {
             setloading(true)
@@ -87,11 +93,25 @@ const Signup = () => {
             }).then((response) => {
                 const { data } = response
                 localStorage.setItem('UserInfo', data.token)
+                toast({
+                    title: 'We have loged you in',
+                    description: "SignUp Successfully",
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                })
                 setloading(false)
                 navigate('/chats')
 
             }).catch((err) => {
                 console.log(err.message)
+                toast({
+                    title: 'Internal server Error or Email already exists,Try again',
+                    description: "Account creation Failed",
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                })
                 setloading(false)
             })
         }
