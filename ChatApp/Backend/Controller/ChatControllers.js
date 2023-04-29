@@ -1,7 +1,8 @@
 const { catchAsync } = require("async-handler-express")
 const Chat = require('../Models/Chatmodel');
-const { default: mongoose } = require("mongoose");
-const User = require("../Models/UserModel");
+
+
+//API to give access to the Chat b/w two users
 const accessChats = catchAsync(async (req, res, next) => {
 
     const LoginUserID = req.user              //Using headers
@@ -43,4 +44,23 @@ const accessChats = catchAsync(async (req, res, next) => {
     }
 
 })
-module.exports = { accessChats }
+
+
+//API to fetch chat of Login User
+const fetchChats = catchAsync(async (req, res, next) => {
+    try {
+        const LoginedUserChat = req.user
+        const chats = await Chat.find({ users: { $eq: LoginedUserChat } })
+            .populate('users', '-password')
+            .populate('groupAdmin', '-password')
+            .populate('latestMessage')
+            .sort({ updatedAt: -1 })
+        res.status(200).send(chats)
+
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+
+
+})
+module.exports = { accessChats, fetchChats }
