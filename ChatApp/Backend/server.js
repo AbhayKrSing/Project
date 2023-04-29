@@ -7,12 +7,13 @@ require('dotenv').config({ path: path.resolve(__dirname, './.env') }); // Accord
 const app = express()
 const connectDB = require('./config/connectdb');
 const UserRoutes = require('./Routing/UserRoutes');
+const ChatRoutes = require('./Routing/ChatRoutes')
 connectDB()
 app.use(errorHandler);
 app.use(express.json())
 
 app.use('/api/user', UserRoutes)
-
+app.use('/api/chats', ChatRoutes)
 app.get('/', (req, res) => {
     res.send('API is Running')
 })

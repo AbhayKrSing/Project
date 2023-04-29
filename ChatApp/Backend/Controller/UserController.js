@@ -1,6 +1,5 @@
 const { catchAsync } = require('async-handler-express');  //async-handler-express used for handle error in async operation
 const User = require('../Models/UserModel');
-const bcrypt = require('bcrypt');
 const generateToken = require('../config/generateToken');
 //For Sign UP
 const registerUser = catchAsync(async (req, res) => {
