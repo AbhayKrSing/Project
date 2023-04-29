@@ -52,4 +52,12 @@ const LoginUser = catchAsync(async (req, res) => {
         res.status(400).send('Give valid credientials')
     }
 })
-module.exports = { registerUser, LoginUser }
+
+
+//Get all Users.(Login required)
+const GetallUser = catchAsync(async (req, res) => {
+    const keyword = req.query.search          //If more query is there i will use $or in next line for mongodb query
+    const users = await User.find({ name: { $regex: keyword, $options: 'i' } }).find({ _id: { $ne: req.user } }).select('-password')
+    res.send(users)
+})
+module.exports = { registerUser, LoginUser, GetallUser }
