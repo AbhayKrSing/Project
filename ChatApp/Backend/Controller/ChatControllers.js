@@ -102,4 +102,22 @@ const createGroupChat = catchAsync(async (req, res) => {
 
 })
 
-module.exports = { accessChats, fetchChats, createGroupChat }
+//API to rename GroupChat
+const renameGroup = catchAsync(async (req, res) => {
+    try {
+        const check = await Chat.findOne({ _id: req.body.id })
+        if ((check.groupAdmin).toString() == req.user) {
+            check.chatName = req.body.ChatName
+            const updatedName = await check.save()
+            res.status(200).send(updatedName)
+        }
+        else {
+            res.status(400).send('Not authorized to rename group')
+        }
+
+    } catch (error) {
+
+    }
+})
+
+module.exports = { accessChats, fetchChats, createGroupChat, renameGroup }
