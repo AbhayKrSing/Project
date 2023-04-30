@@ -106,7 +106,9 @@ const createGroupChat = catchAsync(async (req, res) => {
 const renameGroup = catchAsync(async (req, res) => {
     try {
         const check = await Chat.findOne({ _id: req.body.id })
-        if ((check.groupAdmin).toString() == req.user) {
+            .populate('users', '-password')
+            .populate('groupAdmin', '-password')      //populated documents cannot be saved in db
+        if ((check.groupAdmin._id).toString() == req.user) {
             check.chatName = req.body.ChatName
             const updatedName = await check.save()
             res.status(200).send(updatedName)
@@ -116,8 +118,44 @@ const renameGroup = catchAsync(async (req, res) => {
         }
 
     } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+//API to add user to Group Chat
 
+const addToGroup = catchAsync(async (req, res) => {
+    const { UserIdToAdd, chatId } = req.body
+    const chat = await Chat.findById(chatId)
+        .populate('users', '-password')
+        .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
+    if ((chat.groupAdmin._id).toString() == req.user) {
+        chat.users.push(UserIdToAdd)
+        const UpdatedChat = await chat.save()
+        res.status(200).send(UpdatedChat)
+    }
+    else {
+        console.log(error.message)
+        res.status(400).send('Only Admin allowed to perform such actions')
     }
 })
 
-module.exports = { accessChats, fetchChats, createGroupChat, renameGroup }
+//API to remove user from Group chat
+const removeFromGroup = catchAsync(async (req, res) => {
+    const { UserIdToRemove, chatId } = req.body
+    const chat = await Chat.findById(chatId)
+        .populate('users', '-password')
+        .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
+    if ((chat.groupAdmin._id).toString() == req.user) {
+        chat.users = chat.users.filter((element) => {
+            return (element._id).toString() != UserIdToRemove
+        })
+        const UpdatedChat = await chat.save()
+        res.status(200).send(UpdatedChat)
+    }
+    else {
+        console.log(error.message)
+        res.status(400).send('Only Admin allowed to perform such actions')
+    }
+})
+
+module.exports = { accessChats, fetchChats, createGroupChat, renameGroup, addToGroup, removeFromGroup }
