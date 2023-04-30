@@ -2,8 +2,8 @@ const { catchAsync } = require("async-handler-express")
 const Chat = require('../Models/Chatmodel');
 
 
-//API to give access to the Chat b/w two users
-const accessChats = catchAsync(async (req, res, next) => {
+//API to give access of Chat b/w two users
+const accessChats = catchAsync(async (req, res) => {
 
     const LoginUserID = req.user              //Using headers
     if (!LoginUserID) {
@@ -47,14 +47,14 @@ const accessChats = catchAsync(async (req, res, next) => {
 
 
 //API to fetch chat of Login User
-const fetchChats = catchAsync(async (req, res, next) => {
+const fetchChats = catchAsync(async (req, res) => {
     try {
         const LoginedUserChat = req.user
         const chats = await Chat.find({ users: { $eq: LoginedUserChat } })
             .populate('users', '-password')
             .populate('groupAdmin', '-password')
             .populate('latestMessage')
-            .sort({ updatedAt: -1 })
+            .sort({ updatedAt: -1 })  //-1 means descending order.While 1 means ascending order.(1 is by default)
         res.status(200).send(chats)
 
     } catch (error) {
@@ -63,4 +63,43 @@ const fetchChats = catchAsync(async (req, res, next) => {
 
 
 })
-module.exports = { accessChats, fetchChats }
+
+//API for creating Group chat
+const createGroupChat = catchAsync(async (req, res) => {
+    try {
+        if (!req.body.name || !req.body.users) {
+            res.status(400).send({ message: "Please Fill all the fields" })
+        }
+        let Users = JSON.parse(req.body.users)           //we Will send json array from body in users key. VISIT https://www.w3schools.com/Js/tryit.asp?filename=tryjson_parse_array  for better understanding
+        if (Users.length < 2) {
+            return res.status(400).send({ message: 'There must be more than 2 people for creating group chat' })
+        }
+        const check = await Chat.find({
+            chatName: req.body.name,
+            isGroupChat: true,
+            users: { $eq: Users },
+            groupAdmin: req.user
+        })
+        if (check[0]) {
+            return res.status(400).send({ message: 'GroupChat Already Existed' })
+        }
+        const groupChat = await Chat.create({
+            chatName: req.body.name,
+            isGroupChat: true,
+            users: Users,
+            groupAdmin: req.user
+        })
+        const fullGROUPChat = await Chat.findById((groupChat._id).toString())
+            .populate('users', '-password')
+            .populate('groupAdmin', '-password')
+        res.status(200).send(fullGROUPChat)
+    } catch (error) {
+        res.status(400).send({
+            error: error.message,
+            message: 'Entered Chatname is already created'
+        })
+    }
+
+})
+
+module.exports = { accessChats, fetchChats, createGroupChat }
