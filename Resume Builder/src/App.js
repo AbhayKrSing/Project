@@ -36,7 +36,7 @@ function App() {
     doc.save('file.pdf');
   };
   const getUserdata = async () => {
-    const res = await fetch('http://localhost:/user/getuser', {
+    const res = await fetch('http://localhost:5000/user/getuser', {
       method: 'POST',
       headers: { 'auth-token': localStorage.getItem('token') },
     })

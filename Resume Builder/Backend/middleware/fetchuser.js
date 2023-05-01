@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken");
 
-const fetch=(req,res,next)=>{
+const fetch = (req, res, next) => {
    try {
-      const token=req.header('auth-token')
-      if(!token){
-        return res.status(400).json({success:false,message:'Enter valid credientials'})
+      const token = req.header('auth-token')
+      if (!token) {
+         return res.status(400).json({ success: false, message: 'Enter valid credientials' })
       }
-      const data= jwt.verify(token,process.env.key1)
+      const data = jwt.verify(token, process.env.KEY)
       console.log(data)
-      req.user=data
+      req.user = data
       next()
    } catch (error) {
       console.log(error.message)
@@ -16,4 +16,4 @@ const fetch=(req,res,next)=>{
    }
 
 }
-module.exports=fetch
+module.exports = fetch

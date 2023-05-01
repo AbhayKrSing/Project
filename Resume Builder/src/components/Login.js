@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import Alert from './Alert';
 
@@ -10,7 +10,7 @@ const Login = () => {
       e.preventDefault()
       let data = new FormData(e.target)
       console.log(data)
-      const res = await fetch('http://localhost:/user/login', {
+      const res = await fetch('http://localhost:5000/user/login', {
         method: 'POST',
         body: data
       })
@@ -20,7 +20,7 @@ const Login = () => {
         localStorage.setItem('token', data.token)
         navigate(`/auth`)
       }
-      else{
+      else {
         setcondition(true)
       }
     } catch (error) {
@@ -31,7 +31,7 @@ const Login = () => {
   }
   return (
     <React.Fragment>
-        <Alert condition={condition} setcondition={setcondition} action="Failure!!" color={'danger'} message={'Enter the valid credentials'}/>
+      <Alert condition={condition} setcondition={setcondition} action="Failure!!" color={'danger'} message={'Enter the valid credentials'} />
       <div className="container d-flex flex-wrap align-items-center">
         <div className='inner_div d-flex align-items-center'>
           <div className='w-50'>  <img src="https://th.bing.com/th/id/R.5cd6aa66b5177259c442e92c72408315?rik=sHYs2g6x%2fXDWLQ&riu=http%3a%2f%2fpngimg.com%2fuploads%2fbirds%2fbirds_PNG44.png&ehk=5Xj%2f9dQeBcg9ru1OzG7D31hzHkmzG3Dd10zZ7cW4Nio%3d&risl=&pid=ImgRaw&r=0" alt="img" srcSet="" width={600} className='img-fluid' />
