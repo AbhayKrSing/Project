@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 const run = require('../Auth/SignUp')
 const runlogin = require('../Auth/Login')
 const getuser = require('../Auth/Getuser')
+const FetchUserpdfData = require('../Auth/FetchUserpdfData')
 
 const bcrypt = require('bcrypt');
 const saltRounds = Number(process.env.saltround);
@@ -71,7 +72,7 @@ router.post('/getuser', fetch, async (req, res) => {
 })
 
 
-//4.save PDF data
+//4.save PDF data(create or update operation)
 router.post('/savepdf', fetch, async (req, res) => {
   try {
     const data = await savePdf(req.body, req.user)
@@ -79,6 +80,17 @@ router.post('/savepdf', fetch, async (req, res) => {
   } catch (error) {
     res.status(400).json(error)
   }
+})
 
+//5.fetch user specific data(read operation)
+router.post('/fetchUserData', fetch, async (req, res) => {
+  try {
+    const data = await FetchUserpdfData(req.user)
+    if (data) {
+      return res.status(200).send(data)
+    }
+  } catch (error) {
+    res.status(400).send(error)
+  }
 })
 module.exports = router

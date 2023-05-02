@@ -4,7 +4,8 @@ const { Schema } = mongoose;
 const Resumeschema = new Schema({
     User: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
+        unique: true
     },
     Name: {
         type: String
@@ -38,5 +39,7 @@ const Resumeschema = new Schema({
         default: "https://res-console.cloudinary.com/do8whoupu/thumbnails/v1/image/upload/v1682966454/ZzNmZm1raDRxYXJjdnQ1Y2htbHE=/preview"
     }
 
+}, {
+    timestamps: true
 })
 module.exports = mongoose.model('Data', Resumeschema)
