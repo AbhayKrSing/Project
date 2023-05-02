@@ -4,14 +4,14 @@ const { body, validationResult } = require('express-validator');
 const run = require('../Auth/SignUp')
 const runlogin = require('../Auth/Login')
 const getuser = require('../Auth/Getuser')
-const multer = require('multer');
+
 const bcrypt = require('bcrypt');
 const saltRounds = Number(process.env.saltround);
 const fetch = require('../middleware/fetchuser');
-const { sync } = require('framer-motion');
-const upload = multer({ dest: 'uploads/' })
+const { savePdf } = require('../Savepdf/Savepdf');
+
 //1.Logup or signup 
-router.post('/Logup', upload.array('files', 12), [
+router.post('/Logup', [
   body('Name').isAlpha('en-US', { ignore: " " }),  //imp to ignore ' '
   body('Email').isEmail(),
   body('password').isLength({ min: 7 })], async (req, res) => {
@@ -37,7 +37,7 @@ router.post('/Logup', upload.array('files', 12), [
 
   })
 //2. Login 
-router.post('/login', upload.array('files', 12), [
+router.post('/login', [
   body('Email').isEmail()], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -68,6 +68,17 @@ router.post('/getuser', fetch, async (req, res) => {
     console.log(error.message)
   }
 
+})
+
+
+//4.save PDF data
+router.post('/savepdf', fetch, async (req, res) => {
+  try {
+    const data = await savePdf(req.body, req.user)
+    res.json(data)
+  } catch (error) {
+    res.status(400).json(error)
+  }
 
 })
 module.exports = router
