@@ -8,11 +8,14 @@ const ChatState = ({ children }) => {
     const [user, setuser] = useState(localStorage.getItem('UserInfo'))
     const navigate = useNavigate()
     useEffect(() => {
-        if (!user) {
+        if (user || localStorage.getItem('GuestUserInfo')) {
+
+        }
+        else {
             navigate('/')
         }
         //so whenever navigate function changes it get triggers
-
+        // eslint-disable-next-line
     }, [navigate])
 
     return (

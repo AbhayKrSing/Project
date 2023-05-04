@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Box, Text, Tab, Tabs, TabPanel, TabPanels, TabList } from '@chakra-ui/react'
 import Login from '../components/authentication/Login'
 import Signup from '../components/authentication/Signup'
 const Homepage = () => {
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [])
 
   const handleclick = (key) => {
     if (key === 'signup') {
