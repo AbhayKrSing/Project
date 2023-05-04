@@ -32,7 +32,7 @@ const Login = () => {
                 password: password,
             }).then((response) => {
                 const { data } = response
-                localStorage.setItem('UserInfo', data.token)
+                localStorage.setItem('UserInfo', JSON.stringify(data))
                 toast({
                     title: 'We have loged you in',
                     description: "Login Successfully",
@@ -63,7 +63,7 @@ const Login = () => {
             password: "159753789",
         }).then((response) => {
             const { data } = response
-            localStorage.setItem('GuestUserInfo', data.token)
+            localStorage.setItem('UserInfo', JSON.stringify(data))
             toast({
                 title: 'We have loged you in',
                 description: "Login Successfully as guest User",

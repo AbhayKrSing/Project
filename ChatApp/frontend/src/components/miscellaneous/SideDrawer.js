@@ -1,7 +1,11 @@
 import React from 'react'
 import { Box, Button, Tooltip, Text, MenuButton, Menu, MenuItem, MenuList, Wrap, WrapItem, Avatar } from '@chakra-ui/react'
 import { BellIcon, ChevronDownIcon, SearchIcon } from '@chakra-ui/icons'
+import { UseContextAPI } from '../../Context/ChatProvider'
+import ProfileModal from '../Simple/ProfileModal'
+
 const SideDrawer = () => {
+    const { user } = UseContextAPI()
     return (
 
         <React.Fragment>
@@ -12,16 +16,16 @@ const SideDrawer = () => {
                         <Text p={2}>Search People</Text>
                     </Button>
                 </Tooltip>
-                <Box>TalkTive</Box>
+                <Box fontSize={'5xl'}>TalkTive</Box>
                 <Box>
                     <Menu>
                         <MenuButton as={Button} p={1} bg={'transparent'}>
                             <BellIcon fontSize={'2xl'} />
                         </MenuButton>
-                        {/* <MenuList>
-                            <MenuItem>
+                        <MenuList fontSize={'3xl'}>
+                            <MenuItem>Hello
                             </MenuItem>
-                        </MenuList> */}
+                        </MenuList>
                     </Menu>
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -29,19 +33,20 @@ const SideDrawer = () => {
                                 <WrapItem>
                                     <Avatar
                                         size='sm'
-                                        name="Might Guy"
-                                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1700&q=80"
+                                        name={user.name}
+                                        src={user.pic}
                                     />
                                 </WrapItem>
+                                <MenuList>
+                                    <MenuItem>My Profile</MenuItem>
+                                    <MenuItem>LogOut</MenuItem>
+                                </MenuList>
                             </Wrap>
-                            <MenuList>
-                                <MenuItem>My Profile</MenuItem>
-                                <MenuItem>LogOut</MenuItem>
-                            </MenuList>
                         </MenuButton>
                     </Menu>
                 </Box>
             </Box>
+            <ProfileModal />
         </React.Fragment>
     )
 }

@@ -92,7 +92,7 @@ const Signup = () => {
                 pic: pic
             }).then((response) => {
                 const { data } = response
-                localStorage.setItem('UserInfo', data.token)
+                localStorage.setItem('UserInfo', JSON.stringify(data))
                 toast({
                     title: 'We have loged you in',
                     description: "SignUp Successfully",
