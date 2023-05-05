@@ -1,3 +1,4 @@
+import { ViewIcon } from '@chakra-ui/icons'
 import {
     Modal,
     ModalOverlay,
@@ -7,31 +8,47 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
-    Button
+    Button,
+    Image,
+    Text
 } from '@chakra-ui/react'
-import React, { useRef } from 'react'
+import { UseContextAPI } from '../../Context/ChatProvider'
+import React, { useEffect } from 'react'
 
-const ProfileModal = () => {
-    const ref = useRef()
+const ProfileModal = ({ children }) => {
+    const { user, setuser } = UseContextAPI()
+    useEffect(() => {
+
+        setuser(JSON.parse(localStorage.getItem('UserInfo')))
+        // eslint-disable-next-line
+    }, [])
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
-
+            {children ? <div onClick={onOpen}>{children}</div> :
+                <ViewIcon />}
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
+                <ModalContent textAlign={'center'}>
+                    <ModalHeader fontSize={'3xl'}>Profile</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        Abhay
+                        {user.name}
                     </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                    <Image
+                        borderRadius='full'
+                        boxSize='150px'
+                        src={user.pic}
+                        alt={user.name}
+                        mx={'auto'}
+                    />
+                    <Text>{user.email}</Text>
+                    <ModalFooter justifyContent={'center'}>
+                        <Button colorScheme='blue' onClick={onClose}>
                             Close
                         </Button>
-                        <Button variant='ghost'>Secondary Action</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

@@ -8,11 +8,10 @@ const ChatState = ({ children }) => {
     const [user, setuser] = useState(JSON.parse(localStorage.getItem('UserInfo')))
     const navigate = useNavigate()
     useEffect(() => {
-        if (user.success) {
-
+        if (user === null) {
+            navigate('/')
         }
         else {
-            navigate('/')
         }
         //so whenever navigate function changes it get triggers
         // eslint-disable-next-line

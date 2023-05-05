@@ -1,14 +1,16 @@
 import React from 'react'
-import { Box, Button, Tooltip, Text, MenuButton, Menu, MenuItem, MenuList, Wrap, WrapItem, Avatar, MenuDivider, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Tooltip, Text, MenuButton, Menu, MenuItem, MenuList, Wrap, WrapItem, Avatar, MenuDivider } from '@chakra-ui/react'
 import { BellIcon, ChevronDownIcon, SearchIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../Context/ChatProvider'
 import ProfileModal from '../Simple/ProfileModal'
+import { useNavigate } from 'react-router-dom'
 
 const SideDrawer = () => {
     const { user } = UseContextAPI()
-    const { onOpen } = useDisclosure()
-    const handleclick = () => {
-        console.log('I M Clicked')
+    const navigate = useNavigate()
+    const Logout = () => {
+        localStorage.removeItem('UserInfo')
+        navigate('/')
     }
     return (
 
@@ -46,9 +48,11 @@ const SideDrawer = () => {
                         {/* All warning and error automatically removed*/}
                         {/*Agar koi chiz button ke andar warpped hai to sirf button pe hi to event trigger hoga */}
                         <MenuList fontSize={'3xl'}>
-                            <MenuItem onClick={handleclick}>Profile</MenuItem>
+                            <ProfileModal>
+                                <MenuItem >Profile</MenuItem>
+                            </ProfileModal>
                             <MenuDivider />
-                            <MenuItem >Logout</MenuItem>
+                            <MenuItem onClick={Logout}>Logout</MenuItem>
                         </MenuList>
 
 
@@ -56,7 +60,7 @@ const SideDrawer = () => {
                     </Menu>
                 </Box>
             </Box>
-            <ProfileModal />
+
         </React.Fragment>
     )
 }
