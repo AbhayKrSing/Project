@@ -1,11 +1,15 @@
 import React from 'react'
-import { Box, Button, Tooltip, Text, MenuButton, Menu, MenuItem, MenuList, Wrap, WrapItem, Avatar } from '@chakra-ui/react'
+import { Box, Button, Tooltip, Text, MenuButton, Menu, MenuItem, MenuList, Wrap, WrapItem, Avatar, MenuDivider, useDisclosure } from '@chakra-ui/react'
 import { BellIcon, ChevronDownIcon, SearchIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../Context/ChatProvider'
 import ProfileModal from '../Simple/ProfileModal'
 
 const SideDrawer = () => {
     const { user } = UseContextAPI()
+    const { onOpen } = useDisclosure()
+    const handleclick = () => {
+        console.log('I M Clicked')
+    }
     return (
 
         <React.Fragment>
@@ -22,8 +26,8 @@ const SideDrawer = () => {
                         <MenuButton as={Button} p={1} bg={'transparent'}>
                             <BellIcon fontSize={'2xl'} />
                         </MenuButton>
-                        <MenuList fontSize={'3xl'}>
-                            <MenuItem>Hello
+                        <MenuList fontSize={'3xl'} >
+                            <MenuItem >Hello
                             </MenuItem>
                         </MenuList>
                     </Menu>
@@ -37,12 +41,18 @@ const SideDrawer = () => {
                                         src={user.pic}
                                     />
                                 </WrapItem>
-                                <MenuList>
-                                    <MenuItem>My Profile</MenuItem>
-                                    <MenuItem>LogOut</MenuItem>
-                                </MenuList>
                             </Wrap>
-                        </MenuButton>
+                        </MenuButton>    {/*Never use value MenuList inside MenuButton,It takes my 1 day*/}
+                        {/* All warning and error automatically removed*/}
+                        {/*Agar koi chiz button ke andar warpped hai to sirf button pe hi to event trigger hoga */}
+                        <MenuList fontSize={'3xl'}>
+                            <MenuItem onClick={handleclick}>Profile</MenuItem>
+                            <MenuDivider />
+                            <MenuItem >Logout</MenuItem>
+                        </MenuList>
+
+
+
                     </Menu>
                 </Box>
             </Box>
