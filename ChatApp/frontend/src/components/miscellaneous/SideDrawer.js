@@ -17,7 +17,7 @@ const SideDrawer = () => {
     return (
 
         <React.Fragment>
-            <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={'100%'} bg={'white'} textAlign={'center'} fontFamily={'work sans'} fontSize={'3em'} borderRadius={'0 0 0.5rem 0.5rem'} padding={'0 0.5rem 0 0.5rem'}>
+            <Box display={'flex'} flexWrap={'wrap'} justifyContent={'space-between'} alignItems={'center'} width={'100%'} bg={'white'} textAlign={'center'} fontFamily={'work sans'} fontSize={'3em'} borderRadius={'0 0 0.5rem 0.5rem'} padding={'0 0.5rem 0 0.5rem'}>
                 <Tooltip label={labelbug ? 'Search People' : ''} hasArrow >
                     {/*If you use Drawered component her it will give warning message that ref cannot be used in function components. */}
                     <Button colorScheme='gray'>
