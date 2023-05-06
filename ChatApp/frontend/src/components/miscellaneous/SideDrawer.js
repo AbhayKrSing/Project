@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Tooltip, Text, MenuButton, Menu, MenuItem, MenuList, Wrap, WrapItem, Avatar, MenuDivider } from '@chakra-ui/react'
 import { BellIcon, ChevronDownIcon, SearchIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../Context/ChatProvider'
 import ProfileModal from '../Simple/ProfileModal'
 import { useNavigate } from 'react-router-dom'
-
+import Drawered from '../Simple/Drawer'
 const SideDrawer = () => {
+    const [labelbug, setlabelbug] = useState(true)
     const { user, setuser } = UseContextAPI()
     const navigate = useNavigate()
     const Logout = () => {
@@ -17,11 +18,15 @@ const SideDrawer = () => {
 
         <React.Fragment>
             <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={'100%'} bg={'white'} textAlign={'center'} fontFamily={'work sans'} fontSize={'3em'} borderRadius={'0 0 0.5rem 0.5rem'} padding={'0 0.5rem 0 0.5rem'}>
-                <Tooltip label='Search People' hasArrow >
+                <Tooltip label={labelbug ? 'Search People' : ''} hasArrow >
+                    {/*If you use Drawered component her it will give warning message that ref cannot be used in function components. */}
                     <Button colorScheme='gray'>
-                        <SearchIcon />
-                        <Text p={2}>Search People</Text>
+                        <Drawered setlabelbug={setlabelbug}>
+                            <SearchIcon />
+                            <Text p={2}>Search People</Text>
+                        </Drawered>
                     </Button>
+
                 </Tooltip>
                 <Box fontSize={'5xl'}>TalkTive</Box>
                 <Box>
