@@ -1,21 +1,22 @@
 //boiler plate code
 import { createContext, useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const chatContext = createContext()
 
 const ChatState = ({ children }) => {
-    const [user, setuser] = useState(JSON.parse(localStorage.getItem('UserInfo')))
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [user, setuser] = useState(localStorage.getItem('UserInfo'))
     useEffect(() => {
         if (user === null) {
             navigate('/')
         }
         else {
+            navigate('/chats')
         }
-        //so whenever navigate function changes it get triggers
         // eslint-disable-next-line
-    }, [navigate])
+    }, [location.pathname])
 
     return (
         <chatContext.Provider value={{ user, setuser }}>{children}</chatContext.Provider>

@@ -6,9 +6,10 @@ import ProfileModal from '../Simple/ProfileModal'
 import { useNavigate } from 'react-router-dom'
 
 const SideDrawer = () => {
-    const { user } = UseContextAPI()
+    const { user, setuser } = UseContextAPI()
     const navigate = useNavigate()
     const Logout = () => {
+        setuser(null)
         localStorage.removeItem('UserInfo')
         navigate('/')
     }

@@ -3,7 +3,9 @@ import { Input, VStack, FormControl, FormLabel, FormHelperText, Button } from '@
 import { useToast } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import axios from "axios";
+import { UseContextAPI } from '../../Context/ChatProvider';
 const Signup = () => {
+    const { setuser } = UseContextAPI()
     const navigate = useNavigate()
     const toast = useToast()
     const [loading, setloading] = useState(false)
@@ -100,6 +102,7 @@ const Signup = () => {
                     duration: 5000,
                     isClosable: true,
                 })
+                setuser(JSON.parse(localStorage.getItem('UserInfo')))
                 setloading(false)
                 navigate('/chats')
 

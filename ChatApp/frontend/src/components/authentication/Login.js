@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { Input, VStack, FormControl, FormLabel, FormHelperText, Button, useToast } from '@chakra-ui/react'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom'
+import { UseContextAPI } from '../../Context/ChatProvider';
 const Login = () => {
+    const { setuser } = UseContextAPI()
     const navigate = useNavigate()
     const toast = useToast();
     const [loading, setloading] = useState(false)
@@ -40,6 +42,7 @@ const Login = () => {
                     duration: 5000,
                     isClosable: true,
                 })
+                setuser(JSON.parse(localStorage.getItem('UserInfo')))
                 setloading(false)
                 navigate('/chats')
 
@@ -53,6 +56,7 @@ const Login = () => {
                     isClosable: true,
                 })
                 setloading(false)
+
             })
         }
     }
@@ -71,6 +75,7 @@ const Login = () => {
                 duration: 5000,
                 isClosable: true,
             })
+            setuser(JSON.parse(localStorage.getItem('UserInfo')))
             setloading(false)
             navigate('/chats')
 
