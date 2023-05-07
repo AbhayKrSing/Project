@@ -1,4 +1,5 @@
-import { Avatar, Box, Text } from '@chakra-ui/react'
+import { Avatar, Box, Button, Text } from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
 import React from 'react'
 const UserList = ({ element }) => {
     return (
@@ -12,25 +13,32 @@ const UserList = ({ element }) => {
                 }}
                 display={'flex'}
                 alignItems={'center'}
+                justifyContent={'space-between'}
                 color={'black'}
                 px={3}
                 py={2}
                 mt={3}
                 borderRadius={'lg'}
             >
-                <Avatar
-                    mr={2}
-                    size={'sm'}
-                    cursor={'pointer'}
-                    name={element.name}
-                    src={element.pic}>
-                </Avatar>
+                <Box display={'flex'}>
+
+                    <Avatar
+                        mr={2}
+                        size={'sm'}
+                        cursor={'pointer'}
+                        name={element.name}
+                        src={element.pic}>
+                    </Avatar>
+                    <Box>
+                        <Text>{element.name}</Text>
+                        <Text fontSize="xs">
+                            <b>Email:</b>
+                            {element.name}
+                        </Text>
+                    </Box>
+                </Box>
                 <Box>
-                    <Text>{element.name}</Text>
-                    <Text fontSize="xs">
-                        <b>Email:</b>
-                        {element.name}
-                    </Text>
+                    <AddIcon m={2} />
                 </Box>
             </Box>
         </>
