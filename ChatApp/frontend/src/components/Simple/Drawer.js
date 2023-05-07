@@ -2,39 +2,46 @@ import { useDisclosure, DrawerOverlay, DrawerCloseButton, DrawerHeader, DrawerBo
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loading from './Loading'
-import { UseContextAPI } from '../../Context/ChatProvider'
 import UserList from './UserList'
+import { UseContextAPI } from '../../Context/ChatProvider'
 
 const Drawered = ({ children, setlabelbug }) => {
-    const { Toast } = UseContextAPI()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [loading, setloading] = useState(false)
     const [text, settext] = useState('')
     const [searchData, setsearchData] = useState([])
-    useEffect(() => {
+    const { Toast } = UseContextAPI()
+    useEffect(() => {       //For fetching data dynamically.
         if (text) {
-            submitt()
+            SearchUser()
+        }
+        else {
+            setsearchData([])
         }
         // eslint-disable-next-line
     }, [text])
 
-    const submitt = async () => {
+    const SearchUser = async () => {
         setloading(true)
         if (!text) {
-            Toast('Search People Here', 'Type here', 'warning', 1000, 'top-left')
             setsearchData([])
             setloading(false)
             return
         }
-        const response = await axios({
-            url: `/api/user?search=${text}`,
-            method: 'get',
-            headers: {
-                'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token,
-            }
-        })
-        setloading(false)
-        setsearchData(response.data)
+        try {
+            const response = await axios({
+                url: `/api/user?search=${text}`,
+                method: 'get',
+                headers: {
+                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token,
+                }
+            })
+            setloading(false)
+            setsearchData(response.data)
+        } catch (error) {
+            Toast('Error', error.message, 'error', 1000, 'bottom')
+        }
+
     }
 
     const labelBug = (cond) => {
@@ -47,6 +54,22 @@ const Drawered = ({ children, setlabelbug }) => {
     }
     const handlechange = (e) => {
         settext(e.target.value)
+    }
+    const accessChats = async (UserId) => {
+        try {
+            const { data } = await axios.post('/api/chats', {
+                "userId": UserId
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                }
+            })
+            console.log(data)
+
+        } catch (error) {
+            Toast('Error', error.message, 'error', 1000, 'bottom')
+        }
     }
     return (
         <>
@@ -68,8 +91,7 @@ const Drawered = ({ children, setlabelbug }) => {
                         </Box>
                         <Loading loading={loading} />
                         {searchData.map((element, index) => {
-                            return (<UserList element={element} key={index} />)
-
+                            return (<UserList element={element} key={index} accessChats={accessChats} />)
                         })}
 
                     </DrawerBody>

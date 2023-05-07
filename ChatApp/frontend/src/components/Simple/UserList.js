@@ -1,7 +1,7 @@
 import { Avatar, Box, Text } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import React from 'react'
-const UserList = ({ element }) => {
+const UserList = ({ element, accessChats }) => {
     return (
         <>
             <Box w="100%" p={4}
@@ -33,12 +33,12 @@ const UserList = ({ element }) => {
                         <Text>{element.name}</Text>
                         <Text fontSize="xs">
                             <b>Email:</b>
-                            {element.name}
+                            {element.email}
                         </Text>
                     </Box>
                 </Box>
                 <Box>
-                    <AddIcon m={2} />
+                    <AddIcon m={2} onClick={() => { accessChats(element._id) }} />
                 </Box>
             </Box>
         </>
