@@ -1,24 +1,21 @@
-import { useDisclosure, DrawerOverlay, DrawerCloseButton, DrawerHeader, DrawerBody, Input, DrawerFooter, Button, Drawer, Box, DrawerContent, useToast, Skeleton, Stack } from '@chakra-ui/react'
+import { useDisclosure, DrawerOverlay, DrawerCloseButton, DrawerHeader, DrawerBody, Input, DrawerFooter, Button, Drawer, Box, DrawerContent } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import axios from 'axios'
+import Loading from './Loading'
+import { UseContextAPI } from '../../Context/ChatProvider'
+import UserList from './UserList'
+
 const Drawered = ({ children, setlabelbug }) => {
-    const toast = useToast()
+    const { Toast } = UseContextAPI()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [loading, setloading] = useState(false)
     const [text, settext] = useState('')
-    const [searchData, setsearchData] = useState([''])
+    const [searchData, setsearchData] = useState([])
     const submitt = async () => {
         setloading(true)
         if (!text) {
-            toast({
-                title: 'Search Poeple here',
-                description: "No people found",
-                status: 'warning',
-                duration: 3000,
-                isClosable: true,
-                position: 'top-left',
-            })
-            setsearchData([''])
+            Toast('Please Write Something', 'Type here', 'warning', 1000, 'top-left')
+            setsearchData([])
             setloading(false)
             return
         }
@@ -63,16 +60,9 @@ const Drawered = ({ children, setlabelbug }) => {
                             <Input placeholder='Type here...' onChange={handlechange} value={text} mr={2} />
                             <Button onClick={submitt}>Go</Button>
                         </Box>
-                        <Stack mt={5} display={loading ? '' : 'none'}>
-                            <Skeleton height='20px' />
-                            <Skeleton height='20px' />
-                            <Skeleton height='20px' />
-                        </Stack>
+                        <Loading loading={loading} />
                         {searchData.map((element, index) => {
-                            return (<Box w="100%" p={4} key={index}>
-                                {element.name}
-                            </Box>)
-                            //skeleton or toast bhi dalna hai
+                            return (<UserList element={element} key={index} />)
 
                         })}
 

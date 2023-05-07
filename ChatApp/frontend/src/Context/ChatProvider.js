@@ -1,10 +1,12 @@
 //boiler plate code
+import { useToast } from '@chakra-ui/react'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 const chatContext = createContext()
 
 const ChatState = ({ children }) => {
+    const toast = useToast()
     const navigate = useNavigate();
     const location = useLocation();
     const [user, setuser] = useState(localStorage.getItem('UserInfo'))
@@ -17,9 +19,19 @@ const ChatState = ({ children }) => {
         }
         // eslint-disable-next-line
     }, [location.pathname])
+    const Toast = (title, description, status, duration, position = 'top') => {
+        return toast({
+            title: title,
+            description: description,
+            status: status,
+            duration: duration,
+            isClosable: true,
+            position: position,
+        })
+    }
 
     return (
-        <chatContext.Provider value={{ user, setuser }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {
