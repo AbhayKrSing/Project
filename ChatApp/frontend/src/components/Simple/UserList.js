@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Text } from '@chakra-ui/react'
+import { Avatar, Box, Text } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import React from 'react'
 const UserList = ({ element }) => {

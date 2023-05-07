@@ -1,5 +1,5 @@
-import { useDisclosure, DrawerOverlay, DrawerCloseButton, DrawerHeader, DrawerBody, Input, DrawerFooter, Button, Drawer, Box, DrawerContent } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { useDisclosure, DrawerOverlay, DrawerCloseButton, DrawerHeader, DrawerBody, Input, DrawerFooter, Drawer, Box, DrawerContent } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loading from './Loading'
 import { UseContextAPI } from '../../Context/ChatProvider'
@@ -11,10 +11,17 @@ const Drawered = ({ children, setlabelbug }) => {
     const [loading, setloading] = useState(false)
     const [text, settext] = useState('')
     const [searchData, setsearchData] = useState([])
+    useEffect(() => {
+        if (text) {
+            submitt()
+        }
+        // eslint-disable-next-line
+    }, [text])
+
     const submitt = async () => {
         setloading(true)
         if (!text) {
-            Toast('Please Write Something', 'Type here', 'warning', 1000, 'top-left')
+            Toast('Search People Here', 'Type here', 'warning', 1000, 'top-left')
             setsearchData([])
             setloading(false)
             return
@@ -58,7 +65,6 @@ const Drawered = ({ children, setlabelbug }) => {
                     <DrawerBody>
                         <Box display={'flex'}>
                             <Input placeholder='Type here...' onChange={handlechange} value={text} mr={2} />
-                            <Button onClick={submitt}>Go</Button>
                         </Box>
                         <Loading loading={loading} />
                         {searchData.map((element, index) => {
