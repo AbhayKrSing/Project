@@ -7,6 +7,19 @@ const Loading = ({ loading }) => {
             <Skeleton height='30px' />
             <Skeleton height='30px' />
             <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+            <Skeleton height='30px' />
+
         </Stack>
     )
 }
