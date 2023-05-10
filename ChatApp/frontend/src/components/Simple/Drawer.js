@@ -10,7 +10,7 @@ const Drawered = ({ children, setlabelbug }) => {
     const [loading, setloading] = useState(false)
     const [text, settext] = useState('')
     const [searchData, setsearchData] = useState([])
-    const { Toast } = UseContextAPI()
+    const { Toast, accessChats } = UseContextAPI()
     useEffect(() => {       //For fetching data dynamically.
         if (text) {
             SearchUser()
@@ -55,22 +55,7 @@ const Drawered = ({ children, setlabelbug }) => {
     const handlechange = (e) => {
         settext(e.target.value)
     }
-    const accessChats = async (UserId) => {
-        try {
-            const { data } = await axios.post('/api/chats', {
-                "userId": UserId
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
-                }
-            })
-            console.log(data)
 
-        } catch (error) {
-            Toast('Error', error.message, 'error', 1000, 'bottom')
-        }
-    }
     return (
         <>
             {children ? <Box display={'flex'} alignItems={'center'} onClick={() => { onOpen(); labelBug(true) }} >{children}</Box> : 'Don\'t Do anything'}

@@ -1,9 +1,7 @@
-import { Avatar, Box, Text } from '@chakra-ui/react'
-import { AddIcon } from '@chakra-ui/icons'
-import { UseContextAPI } from '../../Context/ChatProvider'
 import React from 'react'
-const UserList = ({ element, accessChats }) => {
-    const { loading } = UseContextAPI()
+import { Avatar, Box, Text } from '@chakra-ui/react'
+
+const AddUser = ({ user }) => {
     return (
         <>
             <Box w="100%" p={4}
@@ -20,7 +18,6 @@ const UserList = ({ element, accessChats }) => {
                 px={3}
                 py={2}
                 mt={3}
-                borderRadius={'lg'}
             >
                 <Box display={'flex'}>
 
@@ -28,23 +25,23 @@ const UserList = ({ element, accessChats }) => {
                         mr={2}
                         size={'sm'}
                         cursor={'pointer'}
-                        name={element.name}
-                        src={element.pic}>
+                        name={user.name}
+                        src={user.pic}>
                     </Avatar>
                     <Box>
-                        <Text>{element.name}</Text>
+                        <Text>{user.name}</Text>
                         <Text fontSize="xs">
                             <b>Email:</b>
-                            {element.email}
+                            {user.email}
                         </Text>
                     </Box>
                 </Box>
-                <Box>
+                {/* <Box>
                     <AddIcon m={2} onClick={() => { accessChats(element._id) }} />
-                </Box>
+                </Box> */}
             </Box>
         </>
     )
 }
 
-export default UserList
+export default AddUser
