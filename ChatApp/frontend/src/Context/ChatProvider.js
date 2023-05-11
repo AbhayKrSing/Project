@@ -11,7 +11,7 @@ const ChatState = ({ children }) => {
     const location = useLocation();
     const [user, setuser] = useState(localStorage.getItem('UserInfo'))
     const [chat, setchat] = useState([])
-    const [loading, setloading] = useState(false)
+    const [load, setload] = useState(false)
     useEffect(() => {
         if (user === null) {
             navigate('/')
@@ -31,8 +31,9 @@ const ChatState = ({ children }) => {
             position: position,
         })
     }
+    //accessChats userChat for Chatting
     const accessChats = async (UserId) => {
-        setloading(true)
+        setload(true)
         try {
             const { data } = await axios.post('/api/chats', {
                 "userId": UserId
@@ -42,24 +43,64 @@ const ChatState = ({ children }) => {
                     'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
                 }
             })
-            if (!data.isGroupChat) {
-                setchat(data.users)
-                localStorage.setItem('Chat', (data.users[1]._id))
-                setloading(false)
+            const MyChat = data.users.filter((element) => {
+                // if (!chat[0]) {
+                //     return element           //use kar sktey hai baad mey
+                // }
+                // else {
+                //     return element._id === UserId
+                // }
+                return element._id === UserId        //login user not shown
+            })
+
+            if (!chat[0]) {
+                setchat(chat.concat(MyChat))
             }
             else {
-                setchat(user.concat(chat))
-                localStorage.setItem('groupChat', JSON.stringify(data.users))
-                setloading(false)
+                //algo for duplicate
+                let count = 0
+                for (const element of chat) {
+                    if (element._id === MyChat[0]._id) {
+                        count++
+                        break
+                    }
+                }
+                if (count === 0) {
+                    setchat(chat.concat(MyChat))
+                }
             }
+
 
         } catch (error) {
             Toast('Error', error.message, 'error', 1000, 'bottom')
         }
     }
 
+    //fetch all Chats of Logined User
+    const fetchChats = async () => {
+        setload(true)
+        const response = await axios.get("/api/chats", {
+            headers: {
+                'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+            }
+        })
+        const chats = response.data
+        let arr = []
+        const loginedUser = JSON.parse(localStorage.getItem('UserInfo')).id
+        for (const value of chats) {
+            if (value.users[1]._id !== loginedUser) {  //logic to pervent chat display of logined user.
+                arr.push(value.users[1])
+            }
+            else {
+                arr.push(value.users[0])
+            }
+        }
+        setchat(chat.concat(arr))
+        setload(false)
+    }
+
     return (
-        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, loading }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {

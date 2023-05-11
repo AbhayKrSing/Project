@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, Button, Text } from '@chakra-ui/react'
+import { Box, Button, Text, Stack } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import AddUser from '../Simple/AddUser'
 import { UseContextAPI } from '../../Context/ChatProvider'
@@ -8,11 +8,9 @@ import { UseContextAPI } from '../../Context/ChatProvider'
 
 const MyChat = () => {
 
-    const { chat, accessChats } = UseContextAPI()
+    const { chat, fetchChats, setchat } = UseContextAPI()
     useEffect(() => {
-        const ChatingUser = localStorage.getItem('Chat')
-        if (ChatingUser)
-            accessChats(ChatingUser)
+        fetchChats()
         // eslint-disable-next-line
     }, [])
     return (
@@ -33,9 +31,11 @@ const MyChat = () => {
                         <AddIcon ml={4} />
                     </Button>
                 </Box>
-                {(chat).map((element, index) => {
-                    return (<AddUser user={element} key={index} />)
-                })}
+                <Stack overflowY={'scroll'} overflowX={'hidden'} height={'80%'}>
+                    {(chat).map((element, index) => {
+                        return (<AddUser user={element} key={index} />)
+                    })}
+                </Stack>
             </Box>
         </React.Fragment>
     )

@@ -55,7 +55,9 @@ const fetchChats = catchAsync(async (req, res) => {
             .populate('groupAdmin', '-password')
             .populate('latestMessage')
             .sort({ updatedAt: -1 })  //-1 means descending order.While 1 means ascending order.(1 is by default)
-        res.status(200).send(chats)
+        if (chats) {
+            res.status(200).send(chats)
+        }
 
     } catch (error) {
         res.status(400).send(error.message)

@@ -7,12 +7,13 @@ import { useNavigate } from 'react-router-dom'
 import Drawered from '../Simple/Drawer'
 const SideDrawer = () => {
     const [labelbug, setlabelbug] = useState(true)
-    const { user, setuser } = UseContextAPI()
+    const { user, setuser, setchat } = UseContextAPI()
     const navigate = useNavigate()
     const Logout = () => {
         setuser(null)
         localStorage.removeItem('UserInfo')
         navigate('/')
+        setchat([])
     }
     return (
 

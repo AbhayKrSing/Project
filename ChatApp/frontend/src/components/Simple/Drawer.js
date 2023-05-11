@@ -1,4 +1,4 @@
-import { useDisclosure, DrawerOverlay, DrawerCloseButton, DrawerHeader, DrawerBody, Input, DrawerFooter, Drawer, Box, DrawerContent } from '@chakra-ui/react'
+import { useDisclosure, DrawerOverlay, DrawerCloseButton, DrawerHeader, DrawerBody, Input, DrawerFooter, Drawer, Box, DrawerContent, Stack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loading from './Loading'
@@ -75,9 +75,11 @@ const Drawered = ({ children, setlabelbug }) => {
                             <Input placeholder='Type here...' onChange={handlechange} value={text} mr={2} />
                         </Box>
                         <Loading loading={loading} />
-                        {searchData.map((element, index) => {
-                            return (<UserList element={element} key={index} accessChats={accessChats} />)
-                        })}
+                        <Stack overflowY={'scroll'} overflowX={'hidden'}>
+                            {searchData.map((element, index) => {
+                                return (<UserList element={element} key={index} accessChats={accessChats} />)
+                            })}
+                        </Stack>
 
                     </DrawerBody>
 
