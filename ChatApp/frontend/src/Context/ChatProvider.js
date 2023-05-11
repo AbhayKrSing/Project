@@ -69,7 +69,8 @@ const ChatState = ({ children }) => {
                     setchat(chat.concat(MyChat))
                 }
             }
-
+            setload(false)
+            Toast('User Added', ' ', 'success', 1000, 'bottom')
 
         } catch (error) {
             Toast('Error', error.message, 'error', 1000, 'bottom')

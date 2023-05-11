@@ -3,7 +3,7 @@ import { AddIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../Context/ChatProvider'
 import React from 'react'
 const UserList = ({ element, accessChats }) => {
-    const { loading } = UseContextAPI()
+    const { load } = UseContextAPI()
     return (
         <>
             <Box w="100%" p={4}
