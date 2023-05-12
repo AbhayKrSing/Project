@@ -3,12 +3,12 @@ import { Box, Button, Text, Stack } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import AddUser from '../Simple/AddUser'
 import { UseContextAPI } from '../../Context/ChatProvider'
-
+import GroupChatModal from '../Simple/GroupChatModel'
 
 
 const MyChat = () => {
 
-    const { chat, fetchChats, setchat } = UseContextAPI()
+    const { chat, fetchChats } = UseContextAPI()
     useEffect(() => {
         fetchChats()
         // eslint-disable-next-line
@@ -26,10 +26,12 @@ const MyChat = () => {
                     justifyContent={'space-between'}
                 >
                     <Text fontSize={'2rem'} m={2} fontFamily={'work sans'}> My Chats</Text>
-                    <Button m={2}>
-                        <Text> New Group Chat</Text>
-                        <AddIcon ml={4} />
-                    </Button>
+                    <GroupChatModal>
+                        <Button m={2}>
+                            <Text> New Group Chat</Text>
+                            <AddIcon ml={4} />
+                        </Button>
+                    </GroupChatModal>
                 </Box>
                 <Stack overflowY={'scroll'} overflowX={'hidden'} height={'80%'}>
                     {(chat).map((element, index) => {

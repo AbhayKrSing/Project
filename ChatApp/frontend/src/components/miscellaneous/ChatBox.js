@@ -13,7 +13,7 @@ const ChatBox = () => {
                 borderRadius={'4px'}
 
 
-            > <Text fontSize={'2rem'} m={2}> ChatBox</Text>
+            > <Text fontSize={'2rem'} m={2} fontFamily={'work sans'}> ChatBox</Text>
                 <Button m={2}>
                     <Text>
                         Box Chats
