@@ -61,16 +61,18 @@ const ChatState = ({ children }) => {
                 let count = 0
                 for (const element of chat) {
                     if (element._id === MyChat[0]._id) {
+                        Toast('User already added', '', 'warning', 1000, 'bottom')
                         count++
                         break
                     }
                 }
                 if (count === 0) {
                     setchat(chat.concat(MyChat))
+                    Toast('User Added', ' ', 'success', 1000, 'bottom')
                 }
             }
             setload(false)
-            Toast('User Added', ' ', 'success', 1000, 'bottom')
+
 
         } catch (error) {
             Toast('Error', error.message, 'error', 1000, 'bottom')

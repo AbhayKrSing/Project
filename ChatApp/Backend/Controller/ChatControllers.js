@@ -66,6 +66,21 @@ const fetchChats = catchAsync(async (req, res) => {
 
 })
 
+//API to delete chat of a login user
+const deleteChat = catchAsync(async (req, res) => {
+    try {
+        const LoginedUserChat = req.user
+        const { userId } = req.body
+        const chat = await Chat.findOneAndDelete({ $and: [{ users: { $eq: LoginedUserChat } }, { users: { $eq: userId } }] })
+            .populate('users', '-password')
+            .populate('groupAdmin', '-password')
+            .populate('latestMessage')
+        res.status(200).send(chat)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
 //API for creating Group chat
 const createGroupChat = catchAsync(async (req, res) => {
     try {
@@ -160,4 +175,4 @@ const removeFromGroup = catchAsync(async (req, res) => {
     }
 })
 
-module.exports = { accessChats, fetchChats, createGroupChat, renameGroup, addToGroup, removeFromGroup }
+module.exports = { accessChats, fetchChats, deleteChat, createGroupChat, renameGroup, addToGroup, removeFromGroup }
