@@ -12,18 +12,17 @@ import {
     Input,
     Box,
     Stack,
-    Text,
-    Avatar
+
 } from '@chakra-ui/react'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { UseContextAPI } from '../../Context/ChatProvider'
-import { AddIcon } from '@chakra-ui/icons'
+import GroupchatSearchPeople from './GroupchatSearchPeople'
+import UserbadgeInGroupChat from './UserbadgeInGroupChat'
 const GroupChatModel = ({ children }) => {
     const [searchpeople, setsearchpeople] = useState([])
     const { Toast } = UseContextAPI()
     const handlechange = async (search) => {
-        console.log(search)
         if (search && search !== null) {
             const { data } = await axios.get(`/api/user?search=${search}`, {
                 headers: {
@@ -54,25 +53,11 @@ const GroupChatModel = ({ children }) => {
                             <FormLabel>Search People</FormLabel>
                             <Input type='text' placeholder='eg piyush abhay teth etc.' onChange={(e) => { handlechange(e.target.value) }} />
                         </FormControl>
+                        <UserbadgeInGroupChat />
                         <Box w={'100%'} mt={2}>
-                            <Stack >
+                            <Stack overflowY={searchpeople.length > 3 ? 'scroll' : ''} height={searchpeople.length > 3 ? '30vh' : ''}>
                                 {searchpeople.map((element, index) => {
-                                    return (<Box bg={'gray.200'} p={1} border={'2px'} alignItems={'center'} justifyContent={'space-between'} borderRadius={'3px'} key={index} display={'flex'}>
-                                        <Box>
-                                            <Box display={'flex'} alignItems={'center'}>
-                                                <Avatar mr={3}
-                                                    name={element.name}
-                                                    src={element.pic}
-                                                />
-                                                <Text fontFamily={'work sans'}>
-                                                    {element.name}
-                                                </Text>
-                                            </Box>
-                                        </Box>
-                                        <Box>
-                                            <AddIcon />
-                                        </Box>
-                                    </Box>)
+                                    return (<GroupchatSearchPeople element={element} key={index} />)
                                 })}
                             </Stack>
                         </Box>

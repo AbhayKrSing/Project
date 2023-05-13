@@ -12,6 +12,7 @@ const ChatState = ({ children }) => {
     const [user, setuser] = useState(localStorage.getItem('UserInfo'))
     const [chat, setchat] = useState([])
     const [load, setload] = useState(false)
+    const [People, setPeople] = useState([])
     useEffect(() => {
         if (user === null) {
             navigate('/')
@@ -21,6 +22,9 @@ const ChatState = ({ children }) => {
         }
         // eslint-disable-next-line
     }, [location.pathname])
+    const add = (user) => {
+        setPeople([...People, user])         //we don't need to use concat if we are using destructuring
+    }
     const Toast = (title, description, status, duration, position = 'top') => {
         return toast({
             title: title,
@@ -103,7 +107,7 @@ const ChatState = ({ children }) => {
     }
 
     return (
-        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {
