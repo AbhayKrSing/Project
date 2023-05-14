@@ -3,14 +3,14 @@ import { UseContextAPI } from '../../Context/ChatProvider'
 import { Stack, Badge } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 const UserbadgeInGroupChat = () => {
-    const { People } = UseContextAPI()
+    const { People, remove } = UseContextAPI()
     return (
 
         <Stack direction='row' wrap={'wrap'}>
             {People.map((element) => {
                 return (
-                    <span style={{ margin: '2px' }}><Badge _disabled={true} colorScheme='purple' bg={'peru'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>{element.name}
-                        <CloseIcon />
+                    <span style={{ margin: '2px' }} key={element._id}><Badge _disabled={true} colorScheme='purple' bg={'peru'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>{element.name}
+                        <CloseIcon onClick={() => { remove(element) }} />
                     </Badge>
                     </span>)
             })}

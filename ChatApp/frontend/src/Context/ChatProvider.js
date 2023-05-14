@@ -22,8 +22,29 @@ const ChatState = ({ children }) => {
         }
         // eslint-disable-next-line
     }, [location.pathname])
+
+
+    //Add user badge while creating groupchat
     const add = (user) => {
-        setPeople([...People, user])         //we don't need to use concat if we are using destructuring
+        let count = 0
+        for (const element of People) {
+            if (element._id === user._id) {
+                Toast('Already Added', '', 'error', 1000, 'bottom')
+                count++
+            }
+        }
+        if (count === 0) {
+            setPeople([...People, user])         //we don't need to use concat if we are using destructuring
+        }
+    }
+
+    //remove user badge while creating groupchat
+    const remove = (user) => {
+        console.log(user)
+        const newPeople = People.filter((element) => {
+            return element._id !== user._id
+        })
+        setPeople([...newPeople])
     }
     const Toast = (title, description, status, duration, position = 'top') => {
         return toast({
@@ -107,7 +128,7 @@ const ChatState = ({ children }) => {
     }
 
     return (
-        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople, remove }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {
