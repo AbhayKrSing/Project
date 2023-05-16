@@ -12,6 +12,7 @@ import {
     Input,
     Box,
     Stack,
+    Button
 
 } from '@chakra-ui/react'
 import axios from 'axios'
@@ -20,22 +21,29 @@ import { UseContextAPI } from '../../Context/ChatProvider'
 import GroupchatSearchPeople from './GroupchatSearchPeople'
 import UserbadgeInGroupChat from './UserbadgeInGroupChat'
 const GroupChatModel = ({ children }) => {
+
+
     const [searchpeople, setsearchpeople] = useState([])
-    const { Toast } = UseContextAPI()
-    const handlechange = async (search) => {
-        if (search && search !== null) {
-            const { data } = await axios.get(`/api/user?search=${search}`, {
-                headers: {
-                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
-                }
-            })
-            setsearchpeople(data)
+    const [GroupchatName, setGroupchatName] = useState('')
+    const { Toast, createGroupChat } = UseContextAPI()
+    const handlechange = async (value, identity) => {
+        if (identity === 'search') {
+            if (value && value !== null) {
+                const { data } = await axios.get(`/api/user?search=${value}`, {
+                    headers: {
+                        'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                    }
+                })
+                setsearchpeople(data)
+            }
+            else {
+                Toast('Write something here', '', 'warning', 1000)
+                setsearchpeople([])
+            }
         }
         else {
-            Toast('Write something here', '', 'warning', 1000)
-            setsearchpeople([])
+            setGroupchatName(value)
         }
-
     }
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (
@@ -49,21 +57,22 @@ const GroupChatModel = ({ children }) => {
                     <ModalBody>
                         <FormControl>
                             <FormLabel>Chat Name</FormLabel>
-                            <Input type='text' placeholder='Write Chat Name' mb={6} />
+                            <Input type='text' placeholder='Write Chat Name' mb={6} onChange={(e) => { handlechange(e.target.value, 'name') }} />
                             <FormLabel>Search People</FormLabel>
-                            <Input type='text' placeholder='eg piyush abhay teth etc.' onChange={(e) => { handlechange(e.target.value) }} />
+                            <Input type='text' placeholder='eg piyush abhay teth etc.' onChange={(e) => { handlechange(e.target.value, 'search') }} />
                         </FormControl>
                         <UserbadgeInGroupChat />
                         <Box w={'100%'} mt={2}>
                             <Stack overflowY={searchpeople.length > 3 ? 'scroll' : ''} height={searchpeople.length > 3 ? '30vh' : ''}>
                                 {searchpeople.map((element, index) => {
-                                    return (<GroupchatSearchPeople element={element} key={index} />)
+                                    return (<GroupchatSearchPeople element={element} key={element._id} />)
                                 })}
                             </Stack>
                         </Box>
                     </ModalBody>
 
                     <ModalFooter>
+                        <Button colorScheme='blue' onClick={() => { createGroupChat(GroupchatName) }}>Create</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

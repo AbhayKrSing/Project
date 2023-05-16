@@ -50,7 +50,7 @@ const accessChats = catchAsync(async (req, res) => {
 const fetchChats = catchAsync(async (req, res) => {
     try {
         const LoginedUserChat = req.user
-        const chats = await Chat.find({ users: { $eq: LoginedUserChat } })
+        const chats = await Chat.find({ $or: [{ users: { $eq: LoginedUserChat } }, { groupAdmin: LoginedUserChat }] })
             .populate('users', '-password')
             .populate('groupAdmin', '-password')
             .populate('latestMessage')
@@ -86,6 +86,7 @@ const createGroupChat = catchAsync(async (req, res) => {
     try {
         if (!req.body.name || !req.body.users) {
             res.status(400).send({ message: "Please Fill all the fields" })
+            return
         }
         let Users = JSON.parse(req.body.users)           //we Will send json array from body in users key. VISIT https://www.w3schools.com/Js/tryit.asp?filename=tryjson_parse_array  for better understanding
         if (Users.length < 2) {

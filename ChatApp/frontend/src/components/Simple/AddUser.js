@@ -5,8 +5,12 @@ import axios from 'axios'
 import { UseContextAPI } from '../../Context/ChatProvider'
 
 
-const AddUser = ({ user }) => {
+const AddUser = ({ user, selectChat, setselectChat }) => {
     const { chat, setchat, Toast } = UseContextAPI()
+    const selectTheChat = (user) => {
+        console.log(user)
+        setselectChat(user._id)
+    }
     const deletechat = async (userId) => {
         //         axios.delete does supports both request body and headers.
         // It accepts two parameters: url and optional config.You can use config.data to set the request body and headers as follows:
@@ -40,20 +44,18 @@ const AddUser = ({ user }) => {
     }
     return (
         <>
-            <Box w="100%" p={4}
+            <Box w="100%"
                 cursor={'pointer'}
-                bg={'#E8E8E8'}
-                _hover={{
-                    background: '#38B2AC',
-                    color: 'white',
-                }}
+                style={{ background: selectChat === user._id ? '#38B2AC' : '#E8E8E8' }}
+                onClick={() => { selectTheChat(user) }}
                 display={'flex'}
                 alignItems={'center'}
                 justifyContent={'space-between'}
                 color={'black'}
                 px={3}
                 py={2}
-                mt={3}
+                border={'1px solid black'}
+                borderRadius={'2px'}
             >
                 <Box display={'flex'}>
 
@@ -61,13 +63,13 @@ const AddUser = ({ user }) => {
                         mr={2}
                         size={'sm'}
                         cursor={'pointer'}
-                        name={user.name}
+                        name={user.name || user.chatName}
                         src={user.pic}>
                     </Avatar>
                     <Box>
-                        <Text>{user.name}</Text>
+                        <Text>{user.name || user.chatName}</Text>
                         <Text fontSize="xs">
-                            <b>Email:</b>
+                            <b>{user.email ? 'Email:' : 'GroupChat'}</b>
                             {user.email}
                         </Text>
                     </Box>

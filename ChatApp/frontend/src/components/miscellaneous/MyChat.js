@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Box, Button, Text, Stack } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { Box, Button, Text } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import AddUser from '../Simple/AddUser'
 import { UseContextAPI } from '../../Context/ChatProvider'
@@ -7,7 +7,7 @@ import GroupChatModal from '../Simple/GroupChatModel'
 
 
 const MyChat = () => {
-
+    const [selectChat, setselectChat] = useState('')
     const { chat, fetchChats } = UseContextAPI()
     useEffect(() => {
         fetchChats()
@@ -16,7 +16,7 @@ const MyChat = () => {
     return (
         <React.Fragment>
             <Box
-                bg={'white'}
+                bg={'gray.200'}
                 height={'80vh'}
                 borderRadius={'4px'}
                 ml={2}
@@ -33,11 +33,11 @@ const MyChat = () => {
                         </Button>
                     </GroupChatModal>
                 </Box>
-                <Stack overflowY={'scroll'} overflowX={'hidden'} height={'80%'}>
+                <Box overflowY={'scroll'} overflowX={'hidden'} height={'76%'} bg={'white'}>
                     {(chat).map((element, index) => {
-                        return (<AddUser user={element} key={index} />)
+                        return (<AddUser user={element} key={element._id} selectChat={selectChat} setselectChat={setselectChat} />)
                     })}
-                </Stack>
+                </Box>
             </Box>
         </React.Fragment>
     )

@@ -113,22 +113,46 @@ const ChatState = ({ children }) => {
             }
         })
         const chats = response.data
+
         let arr = []
         const loginedUser = JSON.parse(localStorage.getItem('UserInfo')).id
         for (const value of chats) {
-            if (value.users[1]._id !== loginedUser) {  //logic to pervent chat display of logined user.
-                arr.push(value.users[1])
+            if (!value.isGroupChat) {
+                if (value.users[1]._id !== loginedUser) {  //logic to pervent chat display of logined user.
+                    arr.push(value.users[1])
+                }
+                else {
+                    arr.push(value.users[0])
+                }
             }
             else {
-                arr.push(value.users[0])
+                //For Groupchats
+                arr.push(value)
             }
         }
         setchat(chat.concat(arr))
         setload(false)
     }
+    //To create GroupChat
+    const createGroupChat = async (groupChatName) => {
+        const PeoplesId = People.map((element) => {
+            return element._id
+        })
+        const { data } = await axios.post('/api/chats/group', JSON.stringify({
+            name: groupChatName,
+            users: JSON.stringify(PeoplesId)
+        }), {
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+            }
+        })
+        console.log(data)
+        setchat([data, ...chat])
+    }
 
     return (
-        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople, remove }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople, remove, createGroupChat }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {

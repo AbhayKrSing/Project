@@ -1,28 +1,30 @@
 import React from 'react'
-import { Box, Text, Button } from '@chakra-ui/react'
-import { AddIcon } from '@chakra-ui/icons'
+import { Box, Text } from '@chakra-ui/react'
 
 const ChatBox = () => {
     return (
         <React.Fragment>
+            <Box></Box>
             <Box mr={9}
-                bg={'white'}
+                bg={'gray.300'}
                 height={'80vh'}
-                display={'flex'}
-                justifyContent={'space-between'}
                 borderRadius={'4px'}
-
-
-            > <Text fontSize={'2rem'} m={2} fontFamily={'work sans'}> ChatBox</Text>
-                <Button m={2}>
-                    <Text>
-                        Box Chats
-                    </Text>
-                    <AddIcon ml={4} />
-                </Button>
+            >
+                <Box
+                    display={'flex'}
+                    justifyContent={'space-between'}
+                >
+                    <Text fontSize={'2rem'} m={2} fontFamily={'work sans'}>Chat Box</Text>
+                    {/* <Button m={2}>
+                        <Text> New Group Chat</Text>
+                        <AddIcon ml={4} />
+                    </Button> */}
+                </Box>
+                <Box height={'76%'} width={'100%'} bg={'white'} overflowY={'scroll'}>
+                </Box>
             </Box>
 
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 
