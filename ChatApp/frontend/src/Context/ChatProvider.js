@@ -13,6 +13,7 @@ const ChatState = ({ children }) => {
     const [chat, setchat] = useState([])
     const [load, setload] = useState(false)
     const [People, setPeople] = useState([])
+    const [selectChat, setselectChat] = useState('')
     useEffect(() => {
         if (user === null) {
             navigate('/')
@@ -152,7 +153,7 @@ const ChatState = ({ children }) => {
     }
 
     return (
-        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople, remove, createGroupChat }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople, remove, createGroupChat, selectChat, setselectChat }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {

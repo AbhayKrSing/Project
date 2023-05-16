@@ -1,9 +1,10 @@
 import { Avatar, Box, Text } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
-import { UseContextAPI } from '../../Context/ChatProvider'
 import React from 'react'
+//Never use useState hook inside components that render multiple time,due this various hook state formed.
 const UserList = ({ element, accessChats }) => {
-    const { load } = UseContextAPI()
+
+
     return (
         <>
             <Box w="100%" p={4}

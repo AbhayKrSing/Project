@@ -27,7 +27,7 @@ const ProfileModal = ({ children }) => {
     return (
         <>
             {children ? <div onClick={onOpen}>{children}</div> :
-                <ViewIcon />}
+                <ViewIcon onClick={onOpen} height={'100px'} width={'60px'} />}
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

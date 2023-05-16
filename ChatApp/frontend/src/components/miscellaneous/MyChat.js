@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Box, Button, Text } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import AddUser from '../Simple/AddUser'
@@ -7,8 +7,7 @@ import GroupChatModal from '../Simple/GroupChatModel'
 
 
 const MyChat = () => {
-    const [selectChat, setselectChat] = useState('')
-    const { chat, fetchChats } = UseContextAPI()
+    const { chat, fetchChats, selectChat } = UseContextAPI()
     useEffect(() => {
         fetchChats()
         // eslint-disable-next-line
@@ -19,7 +18,11 @@ const MyChat = () => {
                 bg={'gray.200'}
                 height={'80vh'}
                 borderRadius={'4px'}
-                ml={2}
+                m={selectChat ? 0 : ''}
+                mr={{ base: 5, lg: 0 }}
+                ml={{ lg: 2 }}
+                display={{ base: selectChat ? 'none' : 'block', lg: 'block' }}
+
             >
                 <Box
                     display={'flex'}
@@ -35,7 +38,7 @@ const MyChat = () => {
                 </Box>
                 <Box overflowY={'scroll'} overflowX={'hidden'} height={'76%'} bg={'white'}>
                     {(chat).map((element, index) => {
-                        return (<AddUser user={element} key={element._id} selectChat={selectChat} setselectChat={setselectChat} />)
+                        return (<AddUser user={element} key={element._id} />)
                     })}
                 </Box>
             </Box>

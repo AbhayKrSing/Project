@@ -4,12 +4,12 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 import axios from 'axios'
 import { UseContextAPI } from '../../Context/ChatProvider'
 
-
-const AddUser = ({ user, selectChat, setselectChat }) => {
-    const { chat, setchat, Toast } = UseContextAPI()
+//Never use useState hook inside components that render multiple time,due this various hook state formed.
+const AddUser = ({ user }) => {
+    const { chat, setchat, Toast, selectChat, setselectChat } = UseContextAPI()
     const selectTheChat = (user) => {
         console.log(user)
-        setselectChat(user._id)
+        setselectChat(user)
     }
     const deletechat = async (userId) => {
         //         axios.delete does supports both request body and headers.
@@ -46,7 +46,7 @@ const AddUser = ({ user, selectChat, setselectChat }) => {
         <>
             <Box w="100%"
                 cursor={'pointer'}
-                style={{ background: selectChat === user._id ? '#38B2AC' : '#E8E8E8' }}
+                style={{ background: selectChat._id === user._id ? '#38B2AC' : '#E8E8E8' }}
                 onClick={() => { selectTheChat(user) }}
                 display={'flex'}
                 alignItems={'center'}
