@@ -1,8 +1,10 @@
 import React from 'react'
 import { Box, Text, Button } from '@chakra-ui/react'
 import { UseContextAPI } from '../../Context/ChatProvider'
-import ProfileModal from '../Simple/ProfileModal'
+// import ProfileModal from '../Simple/ProfileModal'
+import GroupChatModal from '../Simple/GroupChatModal For CRUD operation/GroupChatModal'
 import { ArrowBackIcon } from '@chakra-ui/icons'
+import ProfileModal from '../Simple/ProfileModal'
 
 const ChatBox = () => {
     const { selectChat, setselectChat } = UseContextAPI()
@@ -27,7 +29,7 @@ const ChatBox = () => {
                     </Text>
 
                     <Button m={2} bg={'transparent'} display={selectChat ? 'flex' : 'none'}>
-                        <ProfileModal></ProfileModal>
+                        {selectChat.chatName ? <GroupChatModal></GroupChatModal> : <ProfileModal></ProfileModal>}
                     </Button>
                 </Box>
                 <Box height={'76%'} fontSize={'2.8rem'} width={'100%'} bg={'white'} overflowY={'scroll'} display={'flex'} alignItems={'center'} justifyContent={'center'}>

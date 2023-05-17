@@ -7,7 +7,7 @@ const UserbadgeInGroupChat = () => {
     return (
 
         <Stack direction='row' wrap={'wrap'}>
-            {People.map((element) => {
+            {(People).map((element) => {
                 return (
                     <span style={{ margin: '2px' }} key={element._id}><Badge _disabled={true} colorScheme='purple' bg={'peru'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>{element.name}
                         <CloseIcon onClick={() => { remove(element) }} />
