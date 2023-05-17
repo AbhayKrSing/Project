@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import {
     Modal,
@@ -13,26 +13,34 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Box
+    Box,
+    Stack
 } from '@chakra-ui/react'
 import { ViewIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../../Context/ChatProvider'
 import UserbadgeInGroupChat from '../UserbadgeInGroupChat'
-
+import GroupchatSearchPeople from '../GroupchatSearchPeople'
 const GroupChatModal = () => {
     const { selectChat, setPeople } = UseContextAPI()
+    const [searchpeople, setsearchpeople] = useState([])
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handlechange = async (e) => {
+        setsearchpeople([])
         const value = e.target.value;
-        console.log(value)
-        const { data } = await axios.get(`/api/user?search=${value}`, {
-            headers: {
-                'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+        if (value.length === 0) {
+            setsearchpeople([])
+        }
+        else if (value.length > 0) {
+            try {
+                const { data } = await axios.get(`/api/user?search=${value}`, {
+                    headers: {
+                        'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                    }
+                })
+                setsearchpeople(data)
+            } catch (error) {
+                console.log(error.message)
             }
-        })
-        console.log(data)
-        if (!data) {
-            console.log('something went wrong')
         }
     }
     return (
@@ -55,6 +63,13 @@ const GroupChatModal = () => {
                             <FormLabel>Adduser</FormLabel>
                             <Box display={'flex'}>
                                 <Input type='text' onChange={handlechange} />
+                            </Box>
+                            <Box>
+                                <Stack overflowY={searchpeople.length > 3 ? 'scroll' : ''} height={searchpeople.length > 3 ? '22vh' : ''}>
+                                    {searchpeople.map((element, index) => {
+                                        return (<GroupchatSearchPeople element={element} key={element._id} />)
+                                    })}
+                                </Stack>
                             </Box>
                         </FormControl>
                     </ModalBody>
