@@ -14,30 +14,121 @@ import {
     FormLabel,
     Input,
     Box,
-    Stack
+    Stack,
 } from '@chakra-ui/react'
 import { ViewIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../../Context/ChatProvider'
 import UserbadgeInGroupChat from '../UserbadgeInGroupChat'
 import GroupchatSearchPeople from '../GroupchatSearchPeople'
 const GroupChatModal = () => {
-    const { selectChat, setPeople } = UseContextAPI()
+    const { selectChat, People, setPeople, chat, Toast, setchat } = UseContextAPI()
     const [searchpeople, setsearchpeople] = useState([])
+    const [value, setvalue] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const handlechange = async (e) => {
-        setsearchpeople([])
-        const value = e.target.value;
+    const updateName = async () => {
         if (value.length === 0) {
-            setsearchpeople([])
+            Toast('Write here something', '', 'warning', 1000, 'bottom')
+            return
         }
-        else if (value.length > 0) {
-            try {
-                const { data } = await axios.get(`/api/user?search=${value}`, {
+        try {
+            const { data } = await axios.put('/api/chats/rename', JSON.stringify({
+                id: selectChat._id,
+                ChatName: value
+            }),
+                {
                     headers: {
+                        'Content-Type': 'application/json',
                         'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
                     }
-                })
-                setsearchpeople(data)
+                }
+            )
+            if (data) {
+                let index = 0;
+                while (index < chat.length) {
+                    if (chat[index]._id === data._id) {
+                        break;
+                    }
+                    index++
+                }
+                chat.splice(index, 1)           //logic to remove and insert element in specific index of array.
+                chat.splice(index, 0, data)
+                setchat([...chat])
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+
+    }
+    const addUserToGroupChat = async () => {
+        let UserIdToAdd = []
+        for (const element of People) {
+            UserIdToAdd.push(element._id)
+        }
+        try {
+            const { data } = await axios.put('/api/chats/groupadd', JSON.stringify({
+                chatId: selectChat._id,
+                UserIdToAdd: JSON.stringify(UserIdToAdd),
+            }), {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                }
+            })
+            console.log(data)
+            if (data === 'Not authorized') {
+                Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
+            }
+            else {
+                Toast('UserAdded', '', 'success', 1000, 'bottom')
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+    const RemoveUserFormGroupChat = async () => {
+        try {
+            const { data } = await axios.put('/api/chats/groupremove', JSON.stringify({
+                chatId: selectChat._id,
+                UserIdToRemove: JSON.stringify(People),
+            }), {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                }
+            })
+            console.log(data)
+            if (data === 'Not authorized') {
+                Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
+            }
+            else {
+                Toast('UserRemoved', '', 'success', 1000, 'bottom')
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+    const handlechange = async (value, select) => {
+        if (select === '2') {
+            setsearchpeople([])
+            if (value.length === 0) {
+                setsearchpeople([])
+            }
+            else if (value.length > 0) {
+                try {
+                    const { data } = await axios.get(`/api/user?search=${value}`, {
+                        headers: {
+                            'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                        }
+                    })
+                    setsearchpeople(data)
+                } catch (error) {
+                    console.log(error.message)
+                }
+            }
+        }
+        else {
+            try { //to rename group chat
+                setvalue(value)
             } catch (error) {
                 console.log(error.message)
             }
@@ -57,12 +148,12 @@ const GroupChatModal = () => {
                         <FormControl>
                             <FormLabel>ChatName</FormLabel>
                             <Box display={'flex'}>
-                                <Input type='text' />
-                                <Button ml={1}>Update</Button>
+                                <Input type='text' onChange={(e) => { handlechange(e.target.value, '1') }} />
+                                <Button ml={1} onClick={updateName}>Update</Button>
                             </Box>
-                            <FormLabel>Adduser</FormLabel>
+                            <FormLabel>SelectUser</FormLabel>
                             <Box display={'flex'}>
-                                <Input type='text' onChange={handlechange} />
+                                <Input type='text' onChange={(e) => { handlechange(e.target.value, '2') }} />
                             </Box>
                             <Box>
                                 <Stack overflowY={searchpeople.length > 3 ? 'scroll' : ''} height={searchpeople.length > 3 ? '22vh' : ''}>
@@ -75,8 +166,11 @@ const GroupChatModal = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
-                            leave
+                        <Button colorScheme='blue' mr={3} onClick={addUserToGroupChat}>
+                            AddUser
+                        </Button>
+                        <Button colorScheme='blue' mr={3} onClick={RemoveUserFormGroupChat}>
+                            RemoveUser
                         </Button>
                     </ModalFooter>
                 </ModalContent>
