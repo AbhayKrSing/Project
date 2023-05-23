@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import axios from 'axios'
 import {
     Modal,
@@ -21,7 +21,7 @@ import { UseContextAPI } from '../../../Context/ChatProvider'
 import UserbadgeInGroupChat from '../UserbadgeInGroupChat'
 import GroupchatSearchPeople from '../GroupchatSearchPeople'
 const GroupChatModal = () => {
-    const { selectChat, People, setPeople, chat, Toast, setchat } = UseContextAPI()
+    const { selectChat, setselectChat, People, setPeople, chat, Toast, setchat } = UseContextAPI()
     const [searchpeople, setsearchpeople] = useState([])
     const [value, setvalue] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -59,35 +59,9 @@ const GroupChatModal = () => {
         }
 
     }
-    const addUserToGroupChat = async () => {
-        let UserIdToAdd = []
-        for (const element of People) {
-            UserIdToAdd.push(element._id)
-        }
-        try {
-            const { data } = await axios.put('/api/chats/groupadd', JSON.stringify({
-                chatId: selectChat._id,
-                UserIdToAdd: JSON.stringify(UserIdToAdd),
-            }), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
-                }
-            })
-            console.log(data)
-            if (data === 'Not authorized') {
-                Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
-            }
-            else {
-                Toast('UserAdded', '', 'success', 1000, 'bottom')
-            }
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
     const RemoveUserFormGroupChat = async () => {
         try {
-            const { data } = await axios.put('/api/chats/groupremove', JSON.stringify({
+            const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
                 chatId: selectChat._id,
                 UserIdToRemove: JSON.stringify(People),
             }), {
@@ -96,12 +70,14 @@ const GroupChatModal = () => {
                     'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
                 }
             })
-            console.log(data)
             if (data === 'Not authorized') {
                 Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
             }
             else {
-                Toast('UserRemoved', '', 'success', 1000, 'bottom')
+                Toast('UsersChanged', '', 'success', 1000, 'bottom')
+                selectChat.users = People                 //need to manupulate setchat because see line no 116
+                setselectChat(selectChat)
+
             }
         } catch (error) {
             console.log(error.message)
@@ -137,7 +113,6 @@ const GroupChatModal = () => {
     return (
         <>
             <ViewIcon onClick={() => { onOpen(); setPeople(selectChat.users) }} height={'90px'} width={'50px'}>Open Modal</ViewIcon>
-
             <Modal isOpen={isOpen} onClose={() => { onClose(); setPeople([]) }}> {/*Logic to use reuse UserbadgeInGroupChat component*/}
                 <ModalOverlay />
                 <ModalContent>
@@ -166,11 +141,8 @@ const GroupChatModal = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={addUserToGroupChat}>
-                            AddUser
-                        </Button>
-                        <Button colorScheme='blue' mr={3} onClick={RemoveUserFormGroupChat}>
-                            RemoveUser
+                        <Button colorScheme='blue' mr={3} onClick={RemoveUserFormGroupChat} >
+                            AddORRemoveUser
                         </Button>
                     </ModalFooter>
                 </ModalContent>

@@ -139,37 +139,14 @@ const renameGroup = catchAsync(async (req, res) => {
         res.status(400).send(error.message)
     }
 })
-//API to add user to Group Chat
-
-const addToGroup = catchAsync(async (req, res) => {
-    try {
-        const { UserIdToAdd, chatId } = req.body
-        const chat = await Chat.findById(chatId)
-            .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
-        if ((chat.groupAdmin._id).toString() == req.user) {     //Ise pa kaam karna hai(Done)
-            let Users = JSON.parse(UserIdToAdd)
-            const LengthOfChat = chat.users.length
-            Users = Users.splice(LengthOfChat)
-            chat.users.push(...Users)
-            const UpdatedChat = await chat.save()
-            res.status(200).send(UpdatedChat)
-        }
-        else {
-            res.send('Not authorized')
-        }
-    } catch (error) {
-        console.log(error.message)
-    }
 
 
-
-})
-
-//API to remove user from Group chat
-const removeFromGroup = catchAsync(async (req, res) => {
+//API to Add & remove user from Group chat
+const Add_removeFromGroup = catchAsync(async (req, res) => {
     try {
         const { UserIdToRemove, chatId } = req.body
         const chat = await Chat.findById(chatId)
+            .populate('users', '-password')
             .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
         if ((chat.groupAdmin._id).toString() == req.user) {
             // chat.users = chat.users.filter((element) => {
@@ -177,7 +154,9 @@ const removeFromGroup = catchAsync(async (req, res) => {
             // })
             chat.users = JSON.parse(UserIdToRemove)
             const UpdatedChat = await chat.save()
-            res.status(200).send(UpdatedChat)
+            const PopulateupdateChat = await Chat.findById(UpdatedChat._id).populate('users', '-password')
+                .populate('groupAdmin', '-password')
+            res.status(200).send(PopulateupdateChat)
         }
         else {
             res.send('Not authorized')
@@ -189,4 +168,4 @@ const removeFromGroup = catchAsync(async (req, res) => {
     }
 })
 
-module.exports = { accessChats, fetchChats, deleteChat, createGroupChat, renameGroup, addToGroup, removeFromGroup }
+module.exports = { accessChats, fetchChats, deleteChat, createGroupChat, renameGroup, Add_removeFromGroup }
