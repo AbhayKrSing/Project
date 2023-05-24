@@ -151,9 +151,33 @@ const ChatState = ({ children }) => {
         console.log(data)
         setchat([data, ...chat])
     }
+    //To Add and remove user from Group
+    const Add_RemoveUserFrommGroupChat = async () => {
+        try {
+            const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
+                chatId: selectChat._id,
+                UserIdToRemove: JSON.stringify(People),
+            }), {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                }
+            })
+            if (data === 'Not authorized') {
+                Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
+            }
+            else {
+                Toast('UsersChanged', '', 'success', 1000, 'bottom')
+                selectChat.users = People                 //need to manupulate setchat because see line no 116
+                setselectChat(selectChat)
 
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
     return (
-        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople, remove, createGroupChat, selectChat, setselectChat }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople, remove, createGroupChat, selectChat, setselectChat, Add_RemoveUserFrommGroupChat }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {

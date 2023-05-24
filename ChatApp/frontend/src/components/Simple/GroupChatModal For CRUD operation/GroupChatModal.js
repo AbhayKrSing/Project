@@ -21,7 +21,7 @@ import { UseContextAPI } from '../../../Context/ChatProvider'
 import UserbadgeInGroupChat from '../UserbadgeInGroupChat'
 import GroupchatSearchPeople from '../GroupchatSearchPeople'
 const GroupChatModal = () => {
-    const { selectChat, setselectChat, People, setPeople, chat, Toast, setchat } = UseContextAPI()
+    const { selectChat, setPeople, chat, Toast, setchat, Add_RemoveUserFrommGroupChat } = UseContextAPI()
     const [searchpeople, setsearchpeople] = useState([])
     const [value, setvalue] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -63,30 +63,7 @@ const GroupChatModal = () => {
         }
 
     }
-    const Add_RemoveUserFrommGroupChat = async () => {
-        try {
-            const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
-                chatId: selectChat._id,
-                UserIdToRemove: JSON.stringify(People),
-            }), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
-                }
-            })
-            if (data === 'Not authorized') {
-                Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
-            }
-            else {
-                Toast('UsersChanged', '', 'success', 1000, 'bottom')
-                selectChat.users = People                 //need to manupulate setchat because see line no 116
-                setselectChat(selectChat)
 
-            }
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
     const handlechange = async (value, select) => {
         if (select === '2') {
             setsearchpeople([])
@@ -145,9 +122,9 @@ const GroupChatModal = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                        {/* <Button colorScheme='blue' mr={3} onClick={Add_RemoveUserFrommGroupChat} >
+                        <Button colorScheme='blue' mr={3} onClick={Add_RemoveUserFrommGroupChat} >
                             Add-RemoveUser
-                        </Button> */}
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
