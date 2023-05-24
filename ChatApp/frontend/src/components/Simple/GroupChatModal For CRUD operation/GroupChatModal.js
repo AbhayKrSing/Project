@@ -63,7 +63,7 @@ const GroupChatModal = () => {
         }
 
     }
-    const RemoveUserFormGroupChat = async () => {
+    const Add_RemoveUserFrommGroupChat = async () => {
         try {
             const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
                 chatId: selectChat._id,
@@ -145,9 +145,9 @@ const GroupChatModal = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={RemoveUserFormGroupChat} >
-                            AddORRemoveUser
-                        </Button>
+                        {/* <Button colorScheme='blue' mr={3} onClick={Add_RemoveUserFrommGroupChat} >
+                            Add-RemoveUser
+                        </Button> */}
                     </ModalFooter>
                 </ModalContent>
             </Modal>
