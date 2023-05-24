@@ -132,7 +132,7 @@ const renameGroup = catchAsync(async (req, res) => {
             res.status(200).send(updatedName)
         }
         else {
-            res.status(400).send('Not authorized to rename group')
+            res.send('Not authorized to rename group')
         }
 
     } catch (error) {

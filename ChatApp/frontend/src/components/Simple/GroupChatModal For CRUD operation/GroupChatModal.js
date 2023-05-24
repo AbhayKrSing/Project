@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import {
     Modal,
@@ -25,7 +25,7 @@ const GroupChatModal = () => {
     const [searchpeople, setsearchpeople] = useState([])
     const [value, setvalue] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const updateName = async () => {
+    const updateChatName = async () => {
         if (value.length === 0) {
             Toast('Write here something', '', 'warning', 1000, 'bottom')
             return
@@ -42,7 +42,8 @@ const GroupChatModal = () => {
                     }
                 }
             )
-            if (data) {
+            console.log(data)
+            if (data !== 'Not authorized to rename group') {
                 let index = 0;
                 while (index < chat.length) {
                     if (chat[index]._id === data._id) {
@@ -53,6 +54,9 @@ const GroupChatModal = () => {
                 chat.splice(index, 1)           //logic to remove and insert element in specific index of array.
                 chat.splice(index, 0, data)
                 setchat([...chat])
+            }
+            else {
+                Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
             }
         } catch (error) {
             console.log(error.message)
@@ -124,7 +128,7 @@ const GroupChatModal = () => {
                             <FormLabel>ChatName</FormLabel>
                             <Box display={'flex'}>
                                 <Input type='text' onChange={(e) => { handlechange(e.target.value, '1') }} />
-                                <Button ml={1} onClick={updateName}>Update</Button>
+                                <Button ml={1} onClick={updateChatName}>Update</Button>
                             </Box>
                             <FormLabel>SelectUser</FormLabel>
                             <Box display={'flex'}>
