@@ -26,9 +26,13 @@ const Chatpage = () => {
     <React.Fragment>
       <Box w={'100%'}>
         {user && <SideDrawer />}
-        <Grid templateColumns='repeat(3, 1fr)' gap={6} bg='blue.500'>
-          <GridItem w='100%' colSpan={1}>  {user && <MyChat />}</GridItem>
-          <GridItem w='100%' colSpan={2}>  {user && <ChatBox />}</GridItem>
+        <Grid templateColumns={{ base: 'repeat(1,1fr)', lg: 'repeat(3, 1fr)' }} gap={{ base: 0, lg: 6 }}>
+          <GridItem w='100%' colSpan={1} m={3}>
+            {user && <MyChat />}
+          </GridItem>
+          <GridItem w='100%' colSpan={2} m={3}>
+            {user && <ChatBox />}
+          </GridItem>
         </Grid>
       </Box>
     </React.Fragment>

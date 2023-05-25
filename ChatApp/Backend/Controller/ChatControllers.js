@@ -50,12 +50,14 @@ const accessChats = catchAsync(async (req, res) => {
 const fetchChats = catchAsync(async (req, res) => {
     try {
         const LoginedUserChat = req.user
-        const chats = await Chat.find({ users: { $eq: LoginedUserChat } })
+        const chats = await Chat.find({ $or: [{ users: { $eq: LoginedUserChat } }, { groupAdmin: LoginedUserChat }] })
             .populate('users', '-password')
             .populate('groupAdmin', '-password')
             .populate('latestMessage')
             .sort({ updatedAt: -1 })  //-1 means descending order.While 1 means ascending order.(1 is by default)
-        res.status(200).send(chats)
+        if (chats) {
+            res.status(200).send(chats)
+        }
 
     } catch (error) {
         res.status(400).send(error.message)
@@ -64,11 +66,27 @@ const fetchChats = catchAsync(async (req, res) => {
 
 })
 
+//API to delete chat of a login user
+const deleteChat = catchAsync(async (req, res) => {
+    try {
+        const LoginedUserChat = req.user
+        const { userId } = req.body
+        const chat = await Chat.findOneAndDelete({ $and: [{ users: { $eq: LoginedUserChat } }, { users: { $eq: userId } }] })
+            .populate('users', '-password')
+            .populate('groupAdmin', '-password')
+            .populate('latestMessage')
+        res.status(200).send(chat)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
 //API for creating Group chat
 const createGroupChat = catchAsync(async (req, res) => {
     try {
         if (!req.body.name || !req.body.users) {
             res.status(400).send({ message: "Please Fill all the fields" })
+            return
         }
         let Users = JSON.parse(req.body.users)           //we Will send json array from body in users key. VISIT https://www.w3schools.com/Js/tryit.asp?filename=tryjson_parse_array  for better understanding
         if (Users.length < 2) {
@@ -114,48 +132,40 @@ const renameGroup = catchAsync(async (req, res) => {
             res.status(200).send(updatedName)
         }
         else {
-            res.status(400).send('Not authorized to rename group')
+            res.send('Not authorized to rename group')
         }
 
     } catch (error) {
         res.status(400).send(error.message)
     }
 })
-//API to add user to Group Chat
 
-const addToGroup = catchAsync(async (req, res) => {
-    const { UserIdToAdd, chatId } = req.body
-    const chat = await Chat.findById(chatId)
-        .populate('users', '-password')
-        .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
-    if ((chat.groupAdmin._id).toString() == req.user) {
-        chat.users.push(UserIdToAdd)
-        const UpdatedChat = await chat.save()
-        res.status(200).send(UpdatedChat)
-    }
-    else {
+
+//API to Add & remove user from Group chat
+const Add_removeFromGroup = catchAsync(async (req, res) => {
+    try {
+        const { UserIdToRemove, chatId } = req.body
+        const chat = await Chat.findById(chatId)
+            .populate('users', '-password')
+            .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
+        if ((chat.groupAdmin._id).toString() == req.user) {
+            // chat.users = chat.users.filter((element) => {
+            //     return (element._id).toString() != UserIdToRemove
+            // })
+            chat.users = JSON.parse(UserIdToRemove)
+            const UpdatedChat = await chat.save()
+            const PopulateupdateChat = await Chat.findById(UpdatedChat._id).populate('users', '-password')
+                .populate('groupAdmin', '-password')
+            res.status(200).send(PopulateupdateChat)
+        }
+        else {
+            res.send('Not authorized')
+            return
+        }
+    } catch (error) {
         console.log(error.message)
-        res.status(400).send('Only Admin allowed to perform such actions')
+
     }
 })
 
-//API to remove user from Group chat
-const removeFromGroup = catchAsync(async (req, res) => {
-    const { UserIdToRemove, chatId } = req.body
-    const chat = await Chat.findById(chatId)
-        .populate('users', '-password')
-        .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
-    if ((chat.groupAdmin._id).toString() == req.user) {
-        chat.users = chat.users.filter((element) => {
-            return (element._id).toString() != UserIdToRemove
-        })
-        const UpdatedChat = await chat.save()
-        res.status(200).send(UpdatedChat)
-    }
-    else {
-        console.log(error.message)
-        res.status(400).send('Only Admin allowed to perform such actions')
-    }
-})
-
-module.exports = { accessChats, fetchChats, createGroupChat, renameGroup, addToGroup, removeFromGroup }
+module.exports = { accessChats, fetchChats, deleteChat, createGroupChat, renameGroup, Add_removeFromGroup }
