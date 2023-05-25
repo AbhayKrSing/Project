@@ -14,7 +14,7 @@ const Homepage = () => {
     }
     else {
       window.scrollTo({ top: 0, behavior: 'smooth' });  //To scroll to top
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = "auto";
     }
   }
   return (
