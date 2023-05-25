@@ -54,6 +54,7 @@ const GroupChatModal = () => {
                 chat.splice(index, 1)           //logic to remove and insert element in specific index of array.
                 chat.splice(index, 0, data)
                 setchat([...chat])
+                Toast('GroupChat Name Changed', '', 'success', 1000, 'bottom')
             }
             else {
                 Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
@@ -123,7 +124,7 @@ const GroupChatModal = () => {
 
                     <ModalFooter>
                         <Button colorScheme='blue' mr={3} onClick={Add_RemoveUserFrommGroupChat} >
-                            Add-RemoveUser
+                            ChangeUsers
                         </Button>
                     </ModalFooter>
                 </ModalContent>
