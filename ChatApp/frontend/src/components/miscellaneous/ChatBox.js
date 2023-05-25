@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box, Text, Button } from '@chakra-ui/react'
 import { UseContextAPI } from '../../Context/ChatProvider'
-// import ProfileModal from '../Simple/ProfileModal'
 import GroupChatModal from '../Simple/GroupChatModal For CRUD operation/GroupChatModal'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import ProfileModal from '../Simple/ProfileModal'

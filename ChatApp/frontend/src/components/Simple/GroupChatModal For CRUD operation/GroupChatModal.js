@@ -21,7 +21,7 @@ import { UseContextAPI } from '../../../Context/ChatProvider'
 import UserbadgeInGroupChat from '../UserbadgeInGroupChat'
 import GroupchatSearchPeople from '../GroupchatSearchPeople'
 const GroupChatModal = () => {
-    const { selectChat, setPeople, chat, Toast, setchat, Add_RemoveUserFrommGroupChat } = UseContextAPI()
+    const { selectChat, setPeople, chat, Toast, setchat, Add_RemoveUserFrommGroupChat, user } = UseContextAPI()
     const [searchpeople, setsearchpeople] = useState([])
     const [value, setvalue] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -94,13 +94,13 @@ const GroupChatModal = () => {
     }
     return (
         <>
-            <ViewIcon onClick={() => { onOpen(); setPeople(selectChat.users) }} height={'90px'} width={'50px'}>Open Modal</ViewIcon>
+            <ViewIcon onClick={() => { onOpen(); setPeople(selectChat.users) }} height={'90px'} width={'50px'}></ViewIcon>
             <Modal isOpen={isOpen} onClose={() => { onClose(); setPeople([]) }}> {/*Logic to use reuse UserbadgeInGroupChat component*/}
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>{selectChat.chatName}</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
+                    {user.id === selectChat.groupAdmin._id ? <ModalBody>
                         <UserbadgeInGroupChat />
                         <FormControl>
                             <FormLabel>ChatName</FormLabel>
@@ -120,12 +120,15 @@ const GroupChatModal = () => {
                                 </Stack>
                             </Box>
                         </FormControl>
-                    </ModalBody>
+                    </ModalBody> : ''}
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={Add_RemoveUserFrommGroupChat} >
+                        {user.id === selectChat.groupAdmin._id ? <Button colorScheme='blue' mr={3} onClick={Add_RemoveUserFrommGroupChat} >
                             ChangeUsers
-                        </Button>
+                        </Button> : ''}
+                        {user.id !== selectChat.groupAdmin._id ? <Button colorScheme='red'>
+                            LeaveGroup
+                        </Button> : ''}
                     </ModalFooter>
                 </ModalContent>
             </Modal>
