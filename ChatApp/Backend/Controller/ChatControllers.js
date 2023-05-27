@@ -144,15 +144,12 @@ const renameGroup = catchAsync(async (req, res) => {
 //API to Add & remove user from Group chat
 const Add_removeFromGroup = catchAsync(async (req, res) => {
     try {
-        const { UserIdToRemove, chatId } = req.body
+        const { UserIdToSET, chatId } = req.body
         const chat = await Chat.findById(chatId)
             .populate('users', '-password')
             .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
         if ((chat.groupAdmin._id).toString() == req.user) {
-            // chat.users = chat.users.filter((element) => {
-            //     return (element._id).toString() != UserIdToRemove
-            // })
-            chat.users = JSON.parse(UserIdToRemove)
+            chat.users = JSON.parse(UserIdToSET)
             const UpdatedChat = await chat.save()
             const PopulateupdateChat = await Chat.findById(UpdatedChat._id).populate('users', '-password')
                 .populate('groupAdmin', '-password')

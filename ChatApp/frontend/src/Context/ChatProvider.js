@@ -156,7 +156,7 @@ const ChatState = ({ children }) => {
         try {
             const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
                 chatId: selectChat._id,
-                UserIdToRemove: JSON.stringify(People),
+                UserIdToSET: JSON.stringify(People),
             }), {
                 headers: {
                     'Content-Type': 'application/json',
