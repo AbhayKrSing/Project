@@ -100,9 +100,9 @@ const GroupChatModal = () => {
                 <ModalContent>
                     <ModalHeader>{selectChat.chatName}</ModalHeader>
                     <ModalCloseButton />
-                    {user.id === selectChat.groupAdmin._id ? <ModalBody>
+                    <ModalBody>
                         <UserbadgeInGroupChat />
-                        <FormControl>
+                        {user.id === selectChat.groupAdmin._id ? <FormControl>
                             <FormLabel>ChatName</FormLabel>
                             <Box display={'flex'}>
                                 <Input type='text' onChange={(e) => { handlechange(e.target.value, '1') }} />
@@ -119,8 +119,8 @@ const GroupChatModal = () => {
                                     })}
                                 </Stack>
                             </Box>
-                        </FormControl>
-                    </ModalBody> : ''}
+                        </FormControl> : ''}
+                    </ModalBody>
 
                     <ModalFooter>
                         {user.id === selectChat.groupAdmin._id ? <Button colorScheme='blue' mr={3} onClick={Add_RemoveUserFrommGroupChat} >

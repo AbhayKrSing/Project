@@ -11,6 +11,27 @@ const AddUser = ({ user }) => {
         console.log(user)
         setselectChat(user)
     }
+    const DeleteGroupChat = async (groupChat) => {
+        const { data } = await axios.delete('/api/chats/deletegroupchat', {
+            headers: {
+                'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+            },
+            data: {
+                'GroupChat': groupChat     //it goes into req.body
+            }
+        });
+        if (data === 'Not authorized') {
+            Toast('Only Group Admin are allowed to perform such actions', '', 'error', 1000, 'bottom')
+        }
+        else {
+            Toast('Chat Deleted', '', 'success', 1000, 'bottom')
+        }
+        //logic for setting chat after deletion
+        const newchat = chat.filter((element) => {
+            return element._id !== data._id
+        })
+        setchat([...newchat])
+    }
     const deletechat = async (userId) => {
         //         axios.delete does supports both request body and headers.
         // It accepts two parameters: url and optional config.You can use config.data to set the request body and headers as follows:
@@ -79,7 +100,7 @@ const AddUser = ({ user }) => {
                         <ChevronDownIcon />
                     </MenuButton>
                     <MenuList>
-                        <MenuItem color={'darkred'} fontWeight={'bold'} fontSize={'0.9rem'} onClick={() => { deletechat(user._id) }}>delete chat</MenuItem>
+                        {!selectChat.groupAdmin ? <MenuItem color={'darkred'} fontWeight={'bold'} fontSize={'0.9rem'} onClick={() => { deletechat(user._id) }}>Delete chat</MenuItem> : <MenuItem color={'darkred'} fontWeight={'bold'} fontSize={'0.9rem'} onClick={() => { DeleteGroupChat(selectChat) }} isDisabled={selectChat.groupAdmin._id === JSON.parse(localStorage.getItem('UserInfo')).id ? false : true}>DeleteGroupChat</MenuItem>}
                     </MenuList>
                 </Menu>
             </Box>

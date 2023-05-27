@@ -167,5 +167,16 @@ const Add_removeFromGroup = catchAsync(async (req, res) => {
 
     }
 })
+const deletegrpChat = catchAsync(async (req, res) => {
+    const { GroupChat } = req.body
+    const loginedUser = req.user
+    if (loginedUser === GroupChat.groupAdmin._id) {
+        const chat = await Chat.findByIdAndDelete(GroupChat._id)
+        res.status(200).send(chat)
+    }
+    else {
+        res.send('Not authorized')
+    }
+})
 
-module.exports = { accessChats, fetchChats, deleteChat, createGroupChat, renameGroup, Add_removeFromGroup }
+module.exports = { accessChats, fetchChats, deleteChat, createGroupChat, renameGroup, Add_removeFromGroup, deletegrpChat }
