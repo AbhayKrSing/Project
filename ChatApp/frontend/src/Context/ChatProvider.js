@@ -136,23 +136,32 @@ const ChatState = ({ children }) => {
     }
     //To create GroupChat
     const createGroupChat = async (groupChatName) => {
+        setload(true)
         const PeoplesId = People.map((element) => {
             return element._id
         })
-        const { data } = await axios.post('/api/chats/group', JSON.stringify({
-            name: groupChatName,
-            users: JSON.stringify(PeoplesId)
-        }), {
-            headers: {
-                'Content-Type': 'application/json',
-                'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
-            }
-        })
-        console.log(data)
-        setchat([data, ...chat])
+        try {
+            const { data } = await axios.post('/api/chats/group', JSON.stringify({
+                name: groupChatName,
+                users: JSON.stringify(PeoplesId)
+            }), {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                }
+            })
+            console.log(data)
+            setchat([data, ...chat])
+            setload(false)
+            Toast('Chat created successfully', '', 'success', 1000, 'bottom')
+        } catch (error) {
+            console.log(error.message)
+            setload(false)
+        }
     }
     //To Add and remove user from Group
     const Add_RemoveUserFrommGroupChat = async (identifier) => {
+        setload(true)
         if (identifier === 'People') {
             try {
                 const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
@@ -164,6 +173,7 @@ const ChatState = ({ children }) => {
                         'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
                     }
                 })
+                setload(false)
                 if (data === 'Not authorized') {
                     Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
                 }
@@ -175,6 +185,7 @@ const ChatState = ({ children }) => {
                 }
             } catch (error) {
                 console.log(error.message)
+                setload(false)
             }
         }
         else if (identifier === 'oneUser') {
@@ -206,7 +217,7 @@ const ChatState = ({ children }) => {
         }
     }
     return (
-        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople, remove, createGroupChat, selectChat, setselectChat, Add_RemoveUserFrommGroupChat }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, setload, fetchChats, add, People, setPeople, remove, createGroupChat, selectChat, setselectChat, Add_RemoveUserFrommGroupChat }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {
