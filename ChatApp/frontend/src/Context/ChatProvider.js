@@ -196,7 +196,7 @@ const ChatState = ({ children }) => {
                 setselectChat(selectChat)
                 setPeople([...newPeople])
                 const newchat = chat.filter((element) => {
-                    return element.name !== undefined
+                    return element._id !== selectChat._id
                 })
                 setchat([...newchat])
                 Toast('You successfully leaved this Chat', '', 'success', 1000, 'bottom')
