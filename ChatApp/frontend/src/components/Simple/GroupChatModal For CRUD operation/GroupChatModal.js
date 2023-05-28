@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import {
     Modal,
@@ -20,11 +20,17 @@ import { ViewIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../../Context/ChatProvider'
 import UserbadgeInGroupChat from '../UserbadgeInGroupChat'
 import GroupchatSearchPeople from '../GroupchatSearchPeople'
-const GroupChatModal = ({ openMODAL }) => {
-    const { selectChat, setPeople, chat, Toast, setchat, Add_RemoveUserFrommGroupChat, user } = UseContextAPI()
+const GroupChatModal = () => {
+
+
+    const { selectChat, setPeople, chat, Toast, setchat, Add_RemoveUserFrommGroupChat, user, setselectChat } = UseContextAPI()
     const [searchpeople, setsearchpeople] = useState([])
     const [value, setvalue] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
+    useEffect(() => {
+        setvalue(selectChat.chatName)
+        // eslint-disable-next-line
+    }, [isOpen])
     const updateChatName = async () => {
         if (value.length === 0) {
             Toast('Write here something', '', 'warning', 1000, 'bottom')
@@ -54,6 +60,7 @@ const GroupChatModal = ({ openMODAL }) => {
                 chat.splice(index, 1)           //logic to remove and insert element in specific index of array.
                 chat.splice(index, 0, data)
                 setchat([...chat])
+                setselectChat(data)
                 Toast('GroupChat Name Changed', '', 'success', 1000, 'bottom')
             }
             else {
@@ -105,7 +112,7 @@ const GroupChatModal = ({ openMODAL }) => {
                         {user.id === selectChat.groupAdmin._id ? <FormControl>
                             <FormLabel>ChatName</FormLabel>
                             <Box display={'flex'}>
-                                <Input type='text' onChange={(e) => { handlechange(e.target.value, '1') }} />
+                                <Input type='text' onChange={(e) => { handlechange(e.target.value, '1') }} value={value} />
                                 <Button ml={1} onClick={updateChatName}>Update</Button>
                             </Box>
                             <FormLabel>SelectUser</FormLabel>
