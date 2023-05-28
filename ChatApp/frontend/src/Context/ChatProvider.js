@@ -210,9 +210,12 @@ const ChatState = ({ children }) => {
                     return element._id !== selectChat._id
                 })
                 setchat([...newchat])
+                setload(false)
                 Toast('You successfully leaved this Chat', '', 'success', 1000, 'bottom')
+
             } catch (error) {
                 console.log(error.message)
+                setload(false)
             }
         }
     }

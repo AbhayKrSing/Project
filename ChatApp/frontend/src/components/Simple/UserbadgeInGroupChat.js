@@ -1,6 +1,6 @@
 import React from 'react'
 import { UseContextAPI } from '../../Context/ChatProvider'
-import { Stack, Badge } from '@chakra-ui/react'
+import { Stack, Badge, Text } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 const UserbadgeInGroupChat = () => {
     const { People, remove, selectChat, user } = UseContextAPI()
@@ -14,6 +14,10 @@ const UserbadgeInGroupChat = () => {
                     </Badge>
                     </span>)
             })}
+            {selectChat ? <span style={{ margin: '2px' }} key={'GroupAdmin'}><Badge _disabled={true} colorScheme='purple' bg={'peru'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>{selectChat.groupAdmin.name} <Text color={'darkred'}>(Admin)</Text>
+                <CloseIcon pointerEvents={selectChat.groupAdmin ? (user.id === selectChat.groupAdmin._id ? "" : 'none') : ''} />
+            </Badge>
+            </span> : ''}
 
         </Stack>
 
