@@ -10,7 +10,7 @@ const UserbadgeInGroupChat = () => {
             {(People).map((element) => {
                 return (
                     <span style={{ margin: '2px' }} key={element._id}><Badge _disabled={true} colorScheme='purple' bg={'peru'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>{element.name}
-                        <CloseIcon onClick={() => { remove(element) }} pointerEvents={user.id === selectChat.groupAdmin._id ? "" : 'none'} />
+                        <CloseIcon onClick={() => { remove(element) }} pointerEvents={selectChat.groupAdmin ? (user.id === selectChat.groupAdmin._id ? "" : 'none') : ''} />
                     </Badge>
                     </span>)
             })}
