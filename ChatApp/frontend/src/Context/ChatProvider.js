@@ -152,28 +152,57 @@ const ChatState = ({ children }) => {
         setchat([data, ...chat])
     }
     //To Add and remove user from Group
-    const Add_RemoveUserFrommGroupChat = async () => {
-        try {
-            const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
-                chatId: selectChat._id,
-                UserIdToSET: JSON.stringify(People),
-            }), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+    const Add_RemoveUserFrommGroupChat = async (identifier) => {
+        if (identifier === 'People') {
+            try {
+                const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
+                    chatId: selectChat._id,
+                    UserIdToSET: JSON.stringify(People),
+                }), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                    }
+                })
+                if (data === 'Not authorized') {
+                    Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
                 }
-            })
-            if (data === 'Not authorized') {
-                Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
-            }
-            else {
-                Toast('UsersChanged', '', 'success', 1000, 'bottom')
-                selectChat.users = People                 //need to manupulate setchat because see line no 116
-                setselectChat(selectChat)
+                else {
+                    Toast('UsersChanged', '', 'success', 1000, 'bottom')
+                    selectChat.users = People                 //need to manupulate setchat because see line no 116
+                    setselectChat(selectChat)
 
+                }
+            } catch (error) {
+                console.log(error.message)
             }
-        } catch (error) {
-            console.log(error.message)
+        }
+        else if (identifier === 'oneUser') {
+            try {
+                await axios.put('/api/chats/groupadd_remove', JSON.stringify({
+                    chatId: selectChat._id,
+                    UserIdToRemove: user.id,
+                }), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                    }
+                })
+                console.log(People)
+                const newPeople = People.filter((element) => {
+                    return element._id !== user.id
+                })
+                selectChat.users = newPeople                 //need to manupulate setchat because see line no 116
+                setselectChat(selectChat)
+                setPeople([...newPeople])
+                const newchat = chat.filter((element) => {
+                    return element.name !== undefined
+                })
+                setchat([...newchat])
+                Toast('You successfully leaved this Chat', '', 'success', 1000, 'bottom')
+            } catch (error) {
+                console.log(error.message)
+            }
         }
     }
     return (

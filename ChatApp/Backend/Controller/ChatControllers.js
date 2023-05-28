@@ -144,20 +144,30 @@ const renameGroup = catchAsync(async (req, res) => {
 //API to Add & remove user from Group chat
 const Add_removeFromGroup = catchAsync(async (req, res) => {
     try {
-        const { UserIdToSET, chatId } = req.body
-        const chat = await Chat.findById(chatId)
-            .populate('users', '-password')
-            .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
-        if ((chat.groupAdmin._id).toString() == req.user) {
-            chat.users = JSON.parse(UserIdToSET)
-            const UpdatedChat = await chat.save()
-            const PopulateupdateChat = await Chat.findById(UpdatedChat._id).populate('users', '-password')
-                .populate('groupAdmin', '-password')
-            res.status(200).send(PopulateupdateChat)
+        const { UserIdToSET, chatId, UserIdToRemove } = req.body
+        if (UserIdToSET) {
+            const chat = await Chat.findById(chatId)
+                .populate('users', '-password')
+                .populate('groupAdmin', '-password')       //populated documents cannot be saved in db
+            if ((chat.groupAdmin._id).toString() == req.user) {
+                chat.users = JSON.parse(UserIdToSET)
+                const UpdatedChat = await chat.save()
+                const PopulateupdateChat = await Chat.findById(UpdatedChat._id).populate('users', '-password')
+                    .populate('groupAdmin', '-password')
+                res.status(200).send(PopulateupdateChat)
+            }
+            else {
+                res.send('Not authorized')
+                return
+            }
         }
         else {
-            res.send('Not authorized')
-            return
+            let chat = await Chat.findOne({ users: UserIdToRemove })
+            chat.users = chat.users.filter((element) => {
+                return element.toString() !== UserIdToRemove
+            })
+            const updatedchat = await chat.save()
+            res.status(200).send(updatedchat)
         }
     } catch (error) {
         console.log(error.message)

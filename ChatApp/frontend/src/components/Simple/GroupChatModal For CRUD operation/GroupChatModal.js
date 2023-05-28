@@ -20,7 +20,7 @@ import { ViewIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../../Context/ChatProvider'
 import UserbadgeInGroupChat from '../UserbadgeInGroupChat'
 import GroupchatSearchPeople from '../GroupchatSearchPeople'
-const GroupChatModal = () => {
+const GroupChatModal = ({ openMODAL }) => {
     const { selectChat, setPeople, chat, Toast, setchat, Add_RemoveUserFrommGroupChat, user } = UseContextAPI()
     const [searchpeople, setsearchpeople] = useState([])
     const [value, setvalue] = useState('')
@@ -123,10 +123,10 @@ const GroupChatModal = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                        {user.id === selectChat.groupAdmin._id ? <Button colorScheme='blue' mr={3} onClick={Add_RemoveUserFrommGroupChat} >
+                        {user.id === selectChat.groupAdmin._id ? <Button colorScheme='blue' mr={3} onClick={() => { Add_RemoveUserFrommGroupChat('People') }} >
                             ChangeUsers
                         </Button> : ''}
-                        {user.id !== selectChat.groupAdmin._id ? <Button colorScheme='red'>
+                        {user.id !== selectChat.groupAdmin._id ? <Button colorScheme='red' onClick={() => { Add_RemoveUserFrommGroupChat('oneUser') }}>
                             LeaveGroup
                         </Button> : ''}
                     </ModalFooter>
