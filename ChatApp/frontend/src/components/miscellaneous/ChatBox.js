@@ -4,7 +4,7 @@ import { UseContextAPI } from '../../Context/ChatProvider'
 import GroupChatModal from '../Simple/GroupChatModal For CRUD operation/GroupChatModal'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import ProfileModal from '../Simple/ProfileModal'
-
+import SingleChat from '../Chats/SingleChat'
 const ChatBox = () => {
     const { selectChat, setselectChat } = UseContextAPI()
     return (
@@ -35,6 +35,7 @@ const ChatBox = () => {
                     <Box fontFamily={'work sans'}>
                         {selectChat ? '' : "Select the User for Chatting"}</Box>
                 </Box>
+                <SingleChat />
             </Box>
 
         </React.Fragment >
