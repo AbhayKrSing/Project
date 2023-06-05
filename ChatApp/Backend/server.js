@@ -8,15 +8,14 @@ const app = express()
 const connectDB = require('./config/connectdb');
 const UserRoutes = require('./Routing/UserRoutes');
 const ChatRoutes = require('./Routing/ChatRoutes')
+const MessageRoutes = require('./Routing/MessageRoutes')
 connectDB()
 app.use(errorHandler);
 app.use(express.json())
 
 app.use('/api/user', UserRoutes)
 app.use('/api/chats', ChatRoutes)
-app.get('/', (req, res) => {
-    res.send('API is Running')
-})
+app.use('/api/messages', MessageRoutes)
 
 
 

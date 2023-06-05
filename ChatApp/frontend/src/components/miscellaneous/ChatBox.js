@@ -4,7 +4,8 @@ import { UseContextAPI } from '../../Context/ChatProvider'
 import GroupChatModal from '../Simple/GroupChatModal For CRUD operation/GroupChatModal'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import ProfileModal from '../Simple/ProfileModal'
-import SingleChat from '../Chats/SingleChat'
+import SingleChat from '../Chats/MessageTyping'
+import AllMessages from '../MessageDisplayer/AllMessages'
 const ChatBox = () => {
     const { selectChat, setselectChat } = UseContextAPI()
     return (
@@ -31,9 +32,20 @@ const ChatBox = () => {
                         {selectChat.chatName ? <GroupChatModal></GroupChatModal> : <ProfileModal></ProfileModal>}
                     </Button>
                 </Box>
-                <Box height={'76%'} fontSize={'2.8rem'} width={'100%'} bg={'white'} overflowY={'scroll'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-                    <Box fontFamily={'work sans'}>
-                        {selectChat ? '' : "Select the User for Chatting"}</Box>
+                <Box height={'76%'} fontSize={'1rem'} width={'100%'} bg={'white'} overflowY={'scroll'} >
+                    <Box fontFamily={'work sans'} display={selectChat ? 'none' : 'block'}>
+                        <Text align={'center'} fontSize={'1.9rem'}>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            Select the User for Chatting
+                        </Text>
+                    </Box>
+                    <Box display={selectChat ? 'flex' : 'none'} flexDirection={'column'} fontFamily={'work sans'} height={'100%'} alignItems={'flex-end'}>
+                        <AllMessages></AllMessages>
+                    </Box>
                 </Box>
                 <SingleChat />
             </Box>
