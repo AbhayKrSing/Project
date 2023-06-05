@@ -32,7 +32,7 @@ const ChatBox = () => {
                         {selectChat.chatName ? <GroupChatModal></GroupChatModal> : <ProfileModal></ProfileModal>}
                     </Button>
                 </Box>
-                <Box height={'76%'} fontSize={'1rem'} width={'100%'} bg={'white'} overflowY={'scroll'} >
+                <Box id='scroll' height={'76%'} fontSize={'1rem'} width={'100%'} bg={'white'} overflowY={'scroll'} scrollBehavior={'smooth'} >
                     <Box fontFamily={'work sans'} display={selectChat ? 'none' : 'block'}>
                         <Text align={'center'} fontSize={'1.9rem'}>
                             <br />

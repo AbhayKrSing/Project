@@ -14,4 +14,16 @@ const singleChatMessage = catchAsync(async (req, res) => {
         res.send(error.message)
     }
 })
-module.exports = { singleChatMessage }
+const fetchAllMessages = catchAsync(async (req, res) => {
+    try {
+        const { chatId } = req.params
+        if (!chatId) {
+            throw new Error('No Id is send through params')
+        }
+        const chats = await Message.find({ chat: chatId })
+        res.send(chats)
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+module.exports = { singleChatMessage, fetchAllMessages }
