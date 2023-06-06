@@ -14,13 +14,12 @@ const AllMessages = () => {
 
     const FetchAllMessages = async () => {
         try {
-            const { data } = await axios.get(`/api/messages/chat/${selectChat._id}`, {
+            const { data } = await axios.get(`/api/messages/allchats?chatId=${selectChat._id}&GroupChat=${selectChat.isGroupChat}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'auth-token': user.token
                 }
             })
-
             setchatcontent(data)
         } catch (error) {
             console.log(error.message)

@@ -26,8 +26,6 @@ const MessageTyping = () => {
                     'auth-token': user.token
                 }
             })
-            console.log(chatcontent)
-            console.log(data)
             console.log(user)
             setchatcontent([...chatcontent, data])
 

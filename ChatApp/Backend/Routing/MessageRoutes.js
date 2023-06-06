@@ -4,6 +4,6 @@ const { singleChatMessage, fetchAllMessages } = require('../Controller/MessageCo
 const middlware = require('../Middleware/middleware')
 
 router.use(middlware)
-router.get('/chat/:chatId', fetchAllMessages)
+router.get('/allchats', fetchAllMessages)
 router.post('/single', singleChatMessage)
 module.exports = router

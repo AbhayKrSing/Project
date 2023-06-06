@@ -16,12 +16,33 @@ const singleChatMessage = catchAsync(async (req, res) => {
 })
 const fetchAllMessages = catchAsync(async (req, res) => {
     try {
-        const { chatId } = req.params
+        const { chatId, GroupChat } = req.query
         if (!chatId) {
             throw new Error('No Id is send through params')
         }
-        const chats = await Message.find({ chat: chatId })
-        res.send(chats)
+        if (GroupChat == 'true') {
+            const chats = await Message.find({ chat: chatId })
+            res.send(chats)
+        }
+        else {
+            //single chat logic(one on one chat logic)
+            const chats = await Message.find({
+                $or: [
+                    {
+                        $and: [
+                            { chat: chatId }, { sender: req.user }
+                        ]
+                    },
+                    {
+                        $and: [
+                            { chat: req.user }, { sender: chatId }
+                        ]
+                    }
+
+                ]
+            })
+            res.send(chats)
+        }
     } catch (error) {
         console.log(error.message)
     }
