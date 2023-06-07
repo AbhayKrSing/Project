@@ -8,12 +8,14 @@ const singleChatMessage = catchAsync(async (req, res) => {
         if (!content || !chat) {
             throw new Error('Fill all the fields')
         }
-        const data = await Message.create({ sender: req.user, content: content, chat: chat })
+        let data = await Message.create({ sender: req.user, content: content, chat: chat })
+        data = await data.populate('sender', '-password')
         res.send(data)
     } catch (error) {
         res.send(error.message)
     }
 })
+//API to fetch all messages of user
 const fetchAllMessages = catchAsync(async (req, res) => {
     try {
         const { chatId, GroupChat } = req.query
@@ -21,7 +23,7 @@ const fetchAllMessages = catchAsync(async (req, res) => {
             throw new Error('No Id is send through params')
         }
         if (GroupChat == 'true') {
-            const chats = await Message.find({ chat: chatId })
+            const chats = await Message.find({ chat: chatId }).populate('sender', '-password')
             res.send(chats)
         }
         else {
@@ -40,7 +42,8 @@ const fetchAllMessages = catchAsync(async (req, res) => {
                     }
 
                 ]
-            })
+            }).populate('sender', '-password')
+
             res.send(chats)
         }
     } catch (error) {

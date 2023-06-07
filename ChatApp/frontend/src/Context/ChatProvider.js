@@ -18,6 +18,12 @@ const ChatState = ({ children }) => {
     useEffect(() => {
         if (user === null) {
             navigate('/')
+            setchat([])
+            setload(false)
+            setPeople([])
+            setselectChat('')
+            setchatcontent([])
+            setuser('')
         }
         else {
             navigate('/chats')
