@@ -1,12 +1,14 @@
-import { Box, Avatar, Text } from '@chakra-ui/react'
-import React, { useEffect } from 'react'
+import { Box, Avatar, Text, Spinner } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 import { UseContextAPI } from '../../Context/ChatProvider'
 import axios from 'axios'
 
 const AllMessages = () => {
     const { selectChat, user, chatcontent, setchatcontent } = UseContextAPI()
+    const [load, setload] = useState(false)
     useEffect(() => {
         if (selectChat) {
+            setload(true)
             FetchAllMessages()
         }
         // eslint-disable-next-line
@@ -21,14 +23,20 @@ const AllMessages = () => {
                 }
             })
             setchatcontent(data)
+            setload(false)
         } catch (error) {
             console.log(error.message)
+            setload(false)
         }
     }
 
     return (
-        <>
-            {chatcontent.map((element) => {
+        <>{load && <Box display={'flex'} justifyContent={'center'} width={'100%'} height={'100%'} alignItems={'center'} >
+            <Box >
+                <Spinner />
+            </Box>
+        </Box>}
+            {!load && chatcontent.map((element) => {
                 if (element.sender._id === user.id) {
                     return (<Box background={'lightgreen'} p={2} m={2} borderRadius={'20px 20px 0 20px'} key={element._id}>
                         {element.content}
