@@ -3,6 +3,9 @@ import { Box, Button, FormControl, Input } from '@chakra-ui/react'
 import { ArrowRightIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../Context/ChatProvider'
 import axios from 'axios'
+import { io } from 'socket.io-client';
+
+let socket;
 const MessageTyping = () => {
     const [value, setvalue] = useState('')
     const { selectChat, user, setchatcontent, chatcontent } = UseContextAPI()
@@ -11,7 +14,11 @@ const MessageTyping = () => {
         element.scrollTop = element.scrollHeight
 
     }, [chatcontent])
-
+    useEffect(() => {
+        if (selectChat) {
+            socket = io('http://localhost:5000/')
+        }
+    }, [selectChat])
     const handlechange = (e) => {
         setvalue(e.target.value)
     }

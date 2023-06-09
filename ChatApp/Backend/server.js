@@ -20,6 +20,19 @@ app.use('/api/messages', MessageRoutes)
 
 
 app.use(handleUnknownAPI)  //Applied in last because we want to run it in last
-app.listen(process.env.SERVER_HOST, () => {
+const server = app.listen(process.env.SERVER_HOST, () => {
     console.log('Server is running on 5000'.yellow.bold)
+})
+
+//setting socketio in backend side
+
+const io = require('socket.io')(server, {
+    cors: {
+        origin: ['http://localhost:3000']
+    },
+    pingTimeout: 6000
+})
+
+io.on('connection', (socket) => {
+    console.log('connect with socket having id :' + socket.id)
 })
