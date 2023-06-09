@@ -14,9 +14,16 @@ const ChatState = ({ children }) => {
     const [load, setload] = useState(false)
     const [People, setPeople] = useState([])
     const [selectChat, setselectChat] = useState('')
+    const [chatcontent, setchatcontent] = useState([])
     useEffect(() => {
         if (user === null) {
             navigate('/')
+            setchat([])
+            setload(false)
+            setPeople([])
+            setselectChat('')
+            setchatcontent([])
+            setuser('')
         }
         else {
             navigate('/chats')
@@ -136,48 +143,91 @@ const ChatState = ({ children }) => {
     }
     //To create GroupChat
     const createGroupChat = async (groupChatName) => {
+        setload(true)
         const PeoplesId = People.map((element) => {
             return element._id
         })
-        const { data } = await axios.post('/api/chats/group', JSON.stringify({
-            name: groupChatName,
-            users: JSON.stringify(PeoplesId)
-        }), {
-            headers: {
-                'Content-Type': 'application/json',
-                'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
-            }
-        })
-        console.log(data)
-        setchat([data, ...chat])
-    }
-    //To Add and remove user from Group
-    const Add_RemoveUserFrommGroupChat = async () => {
         try {
-            const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
-                chatId: selectChat._id,
-                UserIdToRemove: JSON.stringify(People),
+            const { data } = await axios.post('/api/chats/group', JSON.stringify({
+                name: groupChatName,
+                users: JSON.stringify(PeoplesId)
             }), {
                 headers: {
                     'Content-Type': 'application/json',
                     'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
                 }
             })
-            if (data === 'Not authorized') {
-                Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
-            }
-            else {
-                Toast('UsersChanged', '', 'success', 1000, 'bottom')
-                selectChat.users = People                 //need to manupulate setchat because see line no 116
-                setselectChat(selectChat)
-
-            }
+            console.log(data)
+            setchat([data, ...chat])
+            setload(false)
+            Toast('Chat created successfully', '', 'success', 1000, 'bottom')
         } catch (error) {
             console.log(error.message)
+            setload(false)
+        }
+    }
+    //To Add and remove user from Group
+    const Add_RemoveUserFrommGroupChat = async (identifier) => {
+        setload(true)
+        if (identifier === 'People') {
+            try {
+                const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
+                    chatId: selectChat._id,
+                    UserIdToSET: JSON.stringify(People),
+                }), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                    }
+                })
+                setload(false)
+                if (data === 'Not authorized') {
+                    Toast('Only GroupAdmin Allowed to perform such actions', '', 'error', 1000, 'bottom')
+                }
+                else {
+                    Toast('UsersChanged', '', 'success', 1000, 'bottom')
+                    selectChat.users = People                 //need to manupulate setchat because see line no 116
+                    setselectChat(selectChat)
+
+                }
+            } catch (error) {
+                console.log(error.message)
+                setload(false)
+            }
+        }
+        else if (identifier === 'oneUser') {
+            try {
+                await axios.put('/api/chats/groupadd_remove', JSON.stringify({
+                    chatId: selectChat._id,
+                    UserIdToRemove: user.id,
+                }), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
+                    }
+                })
+                console.log(People)
+                const newPeople = People.filter((element) => {
+                    return element._id !== user.id
+                })
+                selectChat.users = newPeople                 //need to manupulate setchat because see line no 116
+                setselectChat(selectChat)
+                setPeople([...newPeople])
+                const newchat = chat.filter((element) => {
+                    return element._id !== selectChat._id
+                })
+                setchat([...newchat])
+                setload(false)
+                Toast('You successfully leaved this Chat', '', 'success', 1000, 'bottom')
+
+            } catch (error) {
+                console.log(error.message)
+                setload(false)
+            }
         }
     }
     return (
-        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, fetchChats, add, People, setPeople, remove, createGroupChat, selectChat, setselectChat, Add_RemoveUserFrommGroupChat }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, setload, fetchChats, add, People, setPeople, remove, createGroupChat, selectChat, setselectChat, Add_RemoveUserFrommGroupChat, chatcontent, setchatcontent }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {

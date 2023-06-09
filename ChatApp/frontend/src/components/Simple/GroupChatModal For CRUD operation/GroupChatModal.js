@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import {
     Modal,
@@ -21,13 +21,19 @@ import { UseContextAPI } from '../../../Context/ChatProvider'
 import UserbadgeInGroupChat from '../UserbadgeInGroupChat'
 import GroupchatSearchPeople from '../GroupchatSearchPeople'
 const GroupChatModal = () => {
-    const { selectChat, setPeople, chat, Toast, setchat, Add_RemoveUserFrommGroupChat, user } = UseContextAPI()
+    const { selectChat, setPeople, chat, Toast, setchat, Add_RemoveUserFrommGroupChat, user, setselectChat, load, setload } = UseContextAPI()
     const [searchpeople, setsearchpeople] = useState([])
     const [value, setvalue] = useState('')
     const { isOpen, onOpen, onClose } = useDisclosure()
+    useEffect(() => {
+        setvalue(selectChat.chatName)
+        // eslint-disable-next-line
+    }, [isOpen])
     const updateChatName = async () => {
+        setload(true)
         if (value.length === 0) {
             Toast('Write here something', '', 'warning', 1000, 'bottom')
+            setload(false)
             return
         }
         try {
@@ -43,6 +49,7 @@ const GroupChatModal = () => {
                 }
             )
             console.log(data)
+            setload(false)
             if (data !== 'Not authorized to rename group') {
                 let index = 0;
                 while (index < chat.length) {
@@ -54,6 +61,7 @@ const GroupChatModal = () => {
                 chat.splice(index, 1)           //logic to remove and insert element in specific index of array.
                 chat.splice(index, 0, data)
                 setchat([...chat])
+                setselectChat(data)
                 Toast('GroupChat Name Changed', '', 'success', 1000, 'bottom')
             }
             else {
@@ -61,6 +69,7 @@ const GroupChatModal = () => {
             }
         } catch (error) {
             console.log(error.message)
+            setload(false)
         }
 
     }
@@ -105,8 +114,8 @@ const GroupChatModal = () => {
                         {user.id === selectChat.groupAdmin._id ? <FormControl>
                             <FormLabel>ChatName</FormLabel>
                             <Box display={'flex'}>
-                                <Input type='text' onChange={(e) => { handlechange(e.target.value, '1') }} />
-                                <Button ml={1} onClick={updateChatName}>Update</Button>
+                                <Input type='text' onChange={(e) => { handlechange(e.target.value, '1') }} value={value} />
+                                <Button ml={1} onClick={updateChatName} isLoading={load}>Update</Button>
                             </Box>
                             <FormLabel>SelectUser</FormLabel>
                             <Box display={'flex'}>
@@ -123,10 +132,10 @@ const GroupChatModal = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                        {user.id === selectChat.groupAdmin._id ? <Button colorScheme='blue' mr={3} onClick={Add_RemoveUserFrommGroupChat} >
+                        {user.id === selectChat.groupAdmin._id ? <Button colorScheme='blue' mr={3} onClick={() => { Add_RemoveUserFrommGroupChat('People') }} isLoading={load}>
                             ChangeUsers
                         </Button> : ''}
-                        {user.id !== selectChat.groupAdmin._id ? <Button colorScheme='red'>
+                        {user.id !== selectChat.groupAdmin._id ? <Button colorScheme='red' onClick={() => { Add_RemoveUserFrommGroupChat('oneUser') }} isLoading={load}>
                             LeaveGroup
                         </Button> : ''}
                     </ModalFooter>

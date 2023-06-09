@@ -25,7 +25,7 @@ const GroupChatModel = ({ children }) => {
 
     const [searchpeople, setsearchpeople] = useState([])
     const [GroupchatName, setGroupchatName] = useState('')
-    const { Toast, createGroupChat } = UseContextAPI()
+    const { Toast, createGroupChat, load } = UseContextAPI()
     const handlechange = async (value, identity) => {
         if (identity === 'search') {
             if (value && value !== null) {
@@ -72,7 +72,7 @@ const GroupChatModel = ({ children }) => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' onClick={() => { createGroupChat(GroupchatName) }}>Create</Button>
+                        <Button colorScheme='blue' onClick={() => { createGroupChat(GroupchatName) }} isLoading={load}>Create</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
