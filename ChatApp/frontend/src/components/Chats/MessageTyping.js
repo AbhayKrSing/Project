@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Box, Button, FormControl, Input } from '@chakra-ui/react'
 import { ArrowRightIcon } from '@chakra-ui/icons'
 import { UseContextAPI } from '../../Context/ChatProvider'
 import axios from 'axios'
 import { io } from 'socket.io-client';
 
-let socket;
+
 const MessageTyping = () => {
     const [value, setvalue] = useState('')
     const { selectChat, user, setchatcontent, chatcontent } = UseContextAPI()
+    const socketRef = useRef(null)
     useEffect(() => {
         const element = document.getElementById('scroll')
         element.scrollTop = element.scrollHeight
@@ -16,8 +17,23 @@ const MessageTyping = () => {
     }, [chatcontent])
     useEffect(() => {
         if (selectChat) {
-            socket = io('http://localhost:5000/')
+            socketRef.current = io('http://localhost:5000/');
         }
+        const { current: socket } = socketRef;  //This is called destructuring assignment. It is a shorthand syntax in JavaScript that allows you to extract values from arrays or properties from objects and assign them to variables. In this case, it is used to extract the value of the current property from the socketRef object and assign it to a new variable called socket. This is equivalent to writing:
+        if (selectChat) {
+            try {
+                socket.on('connect', () => {
+                    console.log('User is connect with' + socket.id)
+                })
+
+            } catch (error) {
+                console.log(error);
+            }
+            return () => {
+                socket.disconnect();
+            };
+        }
+        // Return a callback to be run before unmount-ing.
     }, [selectChat])
     const handlechange = (e) => {
         setvalue(e.target.value)
