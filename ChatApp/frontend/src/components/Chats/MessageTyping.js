@@ -29,9 +29,9 @@ const MessageTyping = () => {
                 socket.emit('join-room', selectChat._id, (Id) => {
                     console.log('Socket connected with room having id' + Id)
                 })
-                socket.on('receive-message', (message, callback) => {
+                socket.on('receive-message', async (message, callback) => {
                     if (message) {
-                        FetchAllMessages()
+                        await FetchAllMessages()
                         callback(message)
                     }
                 })
