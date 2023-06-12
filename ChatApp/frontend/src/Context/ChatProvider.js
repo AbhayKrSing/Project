@@ -226,8 +226,22 @@ const ChatState = ({ children }) => {
             }
         }
     }
+    //To all message of GroupChat or one-on-one Chat
+    const FetchAllMessages = async () => {
+        try {
+            const { data } = await axios.get(`/api/messages/allchats?chatId=${selectChat._id}&GroupChat=${selectChat.isGroupChat}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': user.token
+                }
+            })
+            setchatcontent(data)
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
     return (
-        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, setload, fetchChats, add, People, setPeople, remove, createGroupChat, selectChat, setselectChat, Add_RemoveUserFrommGroupChat, chatcontent, setchatcontent }}>{children}</chatContext.Provider>
+        <chatContext.Provider value={{ user, setuser, Toast, accessChats, chat, setchat, load, setload, fetchChats, add, People, setPeople, remove, createGroupChat, selectChat, setselectChat, Add_RemoveUserFrommGroupChat, chatcontent, setchatcontent, FetchAllMessages }}>{children}</chatContext.Provider>
     )
 }
 export const UseContextAPI = () => {

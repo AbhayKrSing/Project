@@ -8,7 +8,7 @@ import { io } from 'socket.io-client';
 
 const MessageTyping = () => {
     const [value, setvalue] = useState('')
-    const { selectChat, user, setchatcontent, chatcontent } = UseContextAPI()
+    const { selectChat, user, setchatcontent, chatcontent, FetchAllMessages } = UseContextAPI()
     const socketRef = useRef(null)
     useEffect(() => {
         const element = document.getElementById('scroll')
@@ -24,22 +24,33 @@ const MessageTyping = () => {
             try {
                 socket.on('connect', () => {
                     console.log('User is connect with' + socket.id)
+                    console.log(socket)
                 })
-
+                socket.emit('join-room', selectChat._id, (Id) => {
+                    console.log('Socket connected with room having id' + Id)
+                })
+                socket.on('receive-message', (message) => {
+                    if (message) {
+                        FetchAllMessages()
+                    }
+                })
+                return () => {
+                    socket.disconnect()
+                }
             } catch (error) {
                 console.log(error);
             }
-            return () => {
-                socket.disconnect();
-            };
         }
         // Return a callback to be run before unmount-ing.
+        // eslint-disable-next-line
     }, [selectChat])
     const handlechange = (e) => {
         setvalue(e.target.value)
     }
     const sendMessage = async (identifier) => {
         if (identifier === 'clicked' || identifier === 'Enter') {
+            const { current: socket } = socketRef;
+            socket.emit('send-message', value, selectChat._id)
             const { data } = await axios.post('/api/messages/single', JSON.stringify({
                 content: value,
                 chat: selectChat._id,

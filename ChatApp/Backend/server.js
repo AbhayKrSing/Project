@@ -30,9 +30,15 @@ const io = require('socket.io')(server, {
     cors: {
         origin: ['http://localhost:3000']
     },
-    pingTimeout: 6000
 })
 
 io.on('connection', (socket) => {
     console.log('connect with socket having id :' + socket.id)
+    socket.on('join-room', (room, callback) => {
+        socket.join(room)
+        callback(room)
+    })
+    socket.on('send-message', (message, room) => {
+        socket.to(room).emit('receive-message', message)          //callback error le rha hai.(isliye abhi nhi dala )
+    })
 })

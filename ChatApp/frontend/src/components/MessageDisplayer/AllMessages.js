@@ -1,34 +1,22 @@
 import { Box, Avatar, Text, Spinner } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { UseContextAPI } from '../../Context/ChatProvider'
-import axios from 'axios'
 
 const AllMessages = () => {
-    const { selectChat, user, chatcontent, setchatcontent } = UseContextAPI()
+    const { selectChat, user, chatcontent, FetchAllMessages } = UseContextAPI()
     const [load, setload] = useState(false)
     useEffect(() => {
-        if (selectChat) {
-            setload(true)
-            FetchAllMessages()
+        async function fetchData() {
+            if (selectChat) {
+                setload(true)
+                await FetchAllMessages()
+                setload(false)
+            }
+
         }
+        fetchData()
         // eslint-disable-next-line
     }, [selectChat])
-
-    const FetchAllMessages = async () => {
-        try {
-            const { data } = await axios.get(`/api/messages/allchats?chatId=${selectChat._id}&GroupChat=${selectChat.isGroupChat}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': user.token
-                }
-            })
-            setchatcontent(data)
-            setload(false)
-        } catch (error) {
-            console.log(error.message)
-            setload(false)
-        }
-    }
 
     return (
         <>{load && <Box display={'flex'} justifyContent={'center'} width={'100%'} height={'100%'} alignItems={'center'} >
