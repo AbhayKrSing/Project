@@ -39,6 +39,13 @@ io.on('connection', (socket) => {
         callback(room)
     })
     socket.on('send-message', (message, room) => {
-        socket.to(room).emit('receive-message', message)          //callback error le rha hai.(isliye abhi nhi dala )
+        socket.to(room).timeout(60000).emit('receive-message', message, (error, messages) => {   //1st parameter is error while 2nd parameter is response that given to callback.
+            if (!error) {
+                console.log(`Your ${messages} is sent successfully`)
+            }
+            else {
+                console.log(error)
+            }
+        })          //callback error le rha hai.(isliye abhi nhi dala )
     })
 })

@@ -29,9 +29,10 @@ const MessageTyping = () => {
                 socket.emit('join-room', selectChat._id, (Id) => {
                     console.log('Socket connected with room having id' + Id)
                 })
-                socket.on('receive-message', (message) => {
+                socket.on('receive-message', (message, callback) => {
                     if (message) {
                         FetchAllMessages()
+                        callback(message)
                     }
                 })
                 return () => {
@@ -41,7 +42,6 @@ const MessageTyping = () => {
                 console.log(error);
             }
         }
-        // Return a callback to be run before unmount-ing.
         // eslint-disable-next-line
     }, [selectChat])
     const handlechange = (e) => {
