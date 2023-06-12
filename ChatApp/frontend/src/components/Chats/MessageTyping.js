@@ -50,7 +50,7 @@ const MessageTyping = () => {
     const sendMessage = async (identifier) => {
         if (identifier === 'clicked' || identifier === 'Enter') {
             const { current: socket } = socketRef;
-            await socket.emit('send-message', value, selectChat._id)
+
             const { data } = await axios.post('/api/messages/single', JSON.stringify({
                 content: value,
                 chat: selectChat._id,
@@ -62,7 +62,7 @@ const MessageTyping = () => {
             })
             console.log(user)
             setchatcontent([...chatcontent, data])
-
+            socket.emit('send-message', value, selectChat._id)
         }
     }
     return (
