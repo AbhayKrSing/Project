@@ -48,4 +48,16 @@ io.on('connection', (socket) => {
             }
         })          //callback error le rha hai.(isliye abhi nhi dala )
     })
+    socket.on('Typing', (message, room) => {
+        if (message.length >= 0 && room) {
+            socket.to(room).timeout(60000).emit('Typing-message', message, (error, response) => {
+                if (!error) {
+                    console.log(response[0])
+                }
+                else {
+                    console.log(error)
+                }
+            })
+        }
+    })
 })

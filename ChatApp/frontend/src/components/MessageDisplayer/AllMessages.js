@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { UseContextAPI } from '../../Context/ChatProvider'
 
 const AllMessages = () => {
-    const { selectChat, user, chatcontent, FetchAllMessages } = UseContextAPI()
+    const { selectChat, user, chatcontent, FetchAllMessages, TypingIndicator } = UseContextAPI()
     const [load, setload] = useState(false)
     useEffect(() => {
         async function fetchData() {
@@ -37,6 +37,7 @@ const AllMessages = () => {
                     </Box>)
                 }
             })}
+            {TypingIndicator && <Box>{(selectChat.isGroupChat) ? "Typing...." : (selectChat.name + " is Typing....")}</Box>}
         </>
     )
 }
