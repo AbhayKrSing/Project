@@ -1,19 +1,17 @@
-const changetheme = (state = 'white', action) => {
+import { CreateUserWithEmailAndPassword, auth, SignInWithEmailAndPassword } from '../../Firebase/Firebase'
+
+const Authenticate = (state = '', action) => {
     switch (action.type) {
-        case 'red':
-            return 'red'
-        case 'yellow':
-            return 'yellow'
-        case 'green':
-            return 'green'
-        case 'grey':
-            return 'grey'
-        case 'blue':
-            return 'white'
+        case 'signup':
+            const createduser = CreateUserWithEmailAndPassword(auth, action.payload.email, action.payload.password)
+            return createduser
+        case 'login':
+            const loginuser = SignInWithEmailAndPassword(auth, action.payload.email, action.payload.password)
+            return loginuser
         default:
             return state
 
     }
 }
 
-export default changetheme
+export default Authenticate

@@ -1,14 +1,19 @@
-export const redcolor = (color) => {
+export const signup = (email, password) => {
     return {
-        type: 'red',
-        // payload:color     Iska use hi nhi kar rhe ham. (isliye comment out hai)     
+        type: 'signup',
+        payload: {
+            email, password
+        }
     }
 
 }
-export const greencolor = (color) => {
+export const login = (email, password) => {
     return {
-        type: 'green',
-        // payload:color     Iska use hi nhi kar rhe ham. (isliye comment out hai) 
+        type: 'login',
+        payload: {
+            email, password
+        }
     }
 
 }
+

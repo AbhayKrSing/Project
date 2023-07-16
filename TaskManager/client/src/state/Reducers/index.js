@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import changetheme from "./reducers";
+import Authenticate from "./reducers";
 
 const Rootreducer = combineReducers({
-    change: changetheme,
+    User: Authenticate,
 })
 
 export default Rootreducer
