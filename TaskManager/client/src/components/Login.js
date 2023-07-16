@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
     return (
@@ -7,6 +8,7 @@ const Login = () => {
                 <div className='w-full flex justify-end items-center'>
                     <div className="w-full max-w-xl">
                         <form className="bg-white shadow-md rounded-t-lg rounded-bl-lg px-8 pt-8 pb-8 mb-4 max-h-[60vh]">
+                            <h1 className="text-3xl text-lg-20">Login</h1>
                             <div className='my-12'>
                                 <div className="mb-6">
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
@@ -32,8 +34,14 @@ const Login = () => {
 
                             </div>
                         </form>
-                        <p className="text-center text-gray-500 text-xs">
-                            &copy;2020 Acme Corp. All rights reserved.
+                        <p className="text-center text-xs text-white">
+                            <span className='mx-2'>
+                                Create an account ??
+                            </span>
+
+                            <span className='text-blue-900 text-lg'>
+                                <Link to="/signup">Signup</Link>
+                            </span>
                         </p>
                     </div>
                 </div>
