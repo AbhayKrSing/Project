@@ -1,25 +1,35 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home';
 import Login from './components/Login'
 import SignUp from './components/Signup'
 import Main from './main_page/Main';
-// import { useSelector } from 'react-redux'
-// import { useEffect } from 'react';
+import * as actionCreator from './state/actionCreator'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
 function App() {
-  // const state = useSelector((state) =>{ state.User})
-
-
+  const dispatch = useDispatch()
+  dispatch(actionCreator.authorize())
+  const User = useSelector((state) => state.User)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (User) {
+      navigate('/')
+    }
+    else {
+      navigate('/login')
+    }
+    // eslint-disable-next-line
+  }, [User])
   return (
     <div className="App p-5">
       <Main />
-      <BrowserRouter>
-        <Routes>
-          <Route path='/home' element={<Home />} /> {/*protected Route */}
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<SignUp />} />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home actionCreator={actionCreator} />} /> {/*protected Route */}
+        <Route path='/login' element={<Login actionCreator={actionCreator} />} />
+        <Route path='/signup' element={<SignUp actionCreator={actionCreator} />} />
+      </Routes>
     </div>
 
   );

@@ -1,8 +1,7 @@
 import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import * as actionCreator from '../state/actionCreator'
 import { useDispatch } from 'react-redux'
-const Signup = () => {
+const Signup = ({ actionCreator }) => {
     const emailref = useRef()
     const passwordref = useRef()
     const cpasswordref = useRef()

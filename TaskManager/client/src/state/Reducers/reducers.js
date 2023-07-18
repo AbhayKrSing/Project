@@ -1,13 +1,13 @@
-import { CreateUserWithEmailAndPassword, auth, SignInWithEmailAndPassword } from '../../Firebase/Firebase'
 
-const Authenticate = (state = '', action) => {
+
+const Authenticate = (state = null, action) => {
     switch (action.type) {
         case 'signup':
-            const createduser = CreateUserWithEmailAndPassword(auth, action.payload.email, action.payload.password)
-            return createduser
+            return action.payload
         case 'login':
-            const loginuser = SignInWithEmailAndPassword(auth, action.payload.email, action.payload.password)
-            return loginuser
+            return action.payload
+        case 'authorized':
+            return action.payload
         default:
             return state
 
