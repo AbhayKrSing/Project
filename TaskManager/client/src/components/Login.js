@@ -1,7 +1,6 @@
-import React, { useRef } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-
+import React, { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 const Login = ({ actionCreator }) => {
     const dispatch = useDispatch()
     const emailref = useRef()
@@ -10,6 +9,17 @@ const Login = ({ actionCreator }) => {
         e.preventDefault()
         dispatch(actionCreator.login(emailref.current.value, passwordref.current.value));
     }
+    const navigate = useNavigate()
+    const User = useSelector((state) => state.User)
+    useEffect(() => {
+        if (User) {
+            navigate('/')
+        }
+        else {
+            navigate('/login')
+        }
+        // eslint-disable-next-line
+    }, [User])
     return (
         <>
             <div className='mx-auto md:mr-52 pt-28'>

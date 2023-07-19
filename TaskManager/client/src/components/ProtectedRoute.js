@@ -1,10 +1,12 @@
 import React from 'react'
-
-const ProtectedRoute = () => {
+import { useSelector } from 'react-redux'
+import Login from './Login'
+const ProtectedRoute = ({ children }) => {
+    const User = useSelector((state) => state.User)
     return (
-        <div>
-
-        </div>
+        <>
+            {User ? children : <Login />}
+        </>
     )
 }
 

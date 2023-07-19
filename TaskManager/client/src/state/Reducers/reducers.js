@@ -8,6 +8,8 @@ const Authenticate = (state = null, action) => {
             return action.payload
         case 'authorized':
             return action.payload
+        case 'logout':
+            return action.payload
         default:
             return state
 
