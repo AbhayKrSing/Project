@@ -10,7 +10,7 @@ const Home = ({ actionCreator }) => {
         if (User) {
             console.log(User)
         }
-        else {
+        return () => {
             console.log('UserLogout.')
         }
     }, [User])
