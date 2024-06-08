@@ -20,8 +20,8 @@ app.use('/api/messages', MessageRoutes)
 
 
 app.use(handleUnknownAPI)  //Applied in last because we want to run it in last
-const server = app.listen(process.env.SERVER_HOST, () => {
-    console.log('Server is running on 5000'.yellow.bold)
+const server = app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is running on ${process.env.PORT}`.yellow.bold)
 })
 
 //setting socketio in backend side
