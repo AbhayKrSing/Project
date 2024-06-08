@@ -58,7 +58,7 @@ const MessageTyping = () => {
         if (e.key === 'Enter' && e.target.value) {
             const { current: socket } = socketRef;
 
-            const { data } = await axios.post('/api/messages/single', JSON.stringify({
+            const { data } = await axios.post('https://talktive.onrender.com/api/messages/single', JSON.stringify({
                 content: value,
                 chat: selectChat._id,
             }), {
