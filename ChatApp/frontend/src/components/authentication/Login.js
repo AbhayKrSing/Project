@@ -29,7 +29,7 @@ const Login = () => {
         }
         else {
             setloading(true)
-            axios.post("api/user/login", {
+            axios.post("https://talktive.onrender.com/api/user/login", {
                 email: email,
                 password: password,
             }).then((response) => {
@@ -62,7 +62,7 @@ const Login = () => {
     }
     const guest = () => {
         setloading(true)
-        axios.post("api/user/login", {
+        axios.post("https://talktive.onrender.com/api/user/login", {
             email: "guestexample@gamil.com",
             password: "159753789",
         }).then((response) => {

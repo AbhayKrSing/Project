@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path');
 const { errorHandler } = require('async-handler-express');
 const handleUnknownAPI = require('./HandleUnknown/404');
+const cors = require('cors')
 const colors = require('colors')
 require('dotenv').config({ path: path.resolve(__dirname, './.env') }); // According to document,Best pratice must be like this.
 const app = express()
@@ -13,6 +14,8 @@ connectDB()
 app.use(errorHandler);
 app.use(express.json())
 
+
+app.use(cors())
 app.use('/api/user', UserRoutes)
 app.use('/api/chats', ChatRoutes)
 app.use('/api/messages', MessageRoutes)
