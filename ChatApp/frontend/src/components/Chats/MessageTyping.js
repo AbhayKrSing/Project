@@ -16,7 +16,7 @@ const MessageTyping = () => {
     }, [chatcontent])
     useEffect(() => {
         if (selectChat) {
-            socketRef.current = io('http://localhost:5000/');
+            socketRef.current = io('https://talktive.onrender.com/');
         }
         const { current: socket } = socketRef;  //This is called destructuring assignment. It is a shorthand syntax in JavaScript that allows you to extract values from arrays or properties from objects and assign them to variables. In this case, it is used to extract the value of the current property from the socketRef object and assign it to a new variable called socket. This is equivalent to writing:
         if (selectChat) {
