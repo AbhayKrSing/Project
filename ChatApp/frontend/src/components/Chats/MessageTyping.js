@@ -3,7 +3,7 @@ import { Box, FormControl, Input } from '@chakra-ui/react'
 import { UseContextAPI } from '../../Context/ChatProvider'
 import axios from 'axios'
 import { io } from 'socket.io-client';
-
+import { ArrowForwardIcon } from '@chakra-ui/icons'
 
 const MessageTyping = () => {
     const [value, setvalue] = useState('')
@@ -67,17 +67,35 @@ const MessageTyping = () => {
                     'auth-token': user.token
                 }
             })
-            e.target.value = ''
+            setvalue("")
             setchatcontent([...chatcontent, data])
             socket.emit('send-message', value, selectChat.isGroupChat ? selectChat._id : user.id)
             socket.emit('Typing', '', selectChat.isGroupChat ? selectChat._id : user.id)
         }
     }
+    const sendThroughButton = async (e) => {
+        const { current: socket } = socketRef;
+
+        const { data } = await axios.post('https://talktive.onrender.com/api/messages/single', JSON.stringify({
+            content: value,
+            chat: selectChat._id,
+        }), {
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': user.token
+            }
+        })
+        setvalue("")
+        setchatcontent([...chatcontent, data])
+        socket.emit('send-message', value, selectChat.isGroupChat ? selectChat._id : user.id)
+        socket.emit('Typing', '', selectChat.isGroupChat ? selectChat._id : user.id)
+    }
     return (
         <>
             {selectChat ? <FormControl>
-                <Box display={'flex'} width={'100%'} height={'60px'}>
-                    <Input type='text' placeholder='Write message' width={'100%'} height={'80%'} border={'solid 1px black'} onChange={handlechange} onKeyDown={(e) => { sendMessage(e) }} />
+                <Box display={'flex'} width={'100%'} height={'60px'} alignItems={"center"}>
+                    <Input type='text' value={value} bg={"white"} placeholder='Write message' width={'100%'} height={'80%'} onChange={handlechange} onKeyDown={(e) => { sendMessage(e) }} />
+                    <ArrowForwardIcon w={12} h={12} bgColor={"green.400"} textColor={"white"} rounded={"md"} onClick={sendThroughButton} />
                 </Box>
             </FormControl > : ''
             }
