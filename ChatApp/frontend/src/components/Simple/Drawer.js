@@ -30,7 +30,7 @@ const Drawered = ({ children, setlabelbug }) => {
         }
         try {
             const response = await axios({
-                url: `/api/user?search=${text}`,
+                url: `https://talktive.onrender.com/api/user?search=${text}`,
                 method: 'get',
                 headers: {
                     'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token,

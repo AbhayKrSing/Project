@@ -12,7 +12,7 @@ const AddUser = ({ user }) => {
         setselectChat(user)
     }
     const DeleteGroupChat = async (groupChat) => {
-        const { data } = await axios.delete('/api/chats/deletegroupchat', {
+        const { data } = await axios.delete('https://talktive.onrender.com/api/chats/deletegroupchat', {
             headers: {
                 'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
             },
@@ -35,7 +35,7 @@ const AddUser = ({ user }) => {
     const deletechat = async (userId) => {
         //         axios.delete does supports both request body and headers.
         // It accepts two parameters: url and optional config.You can use config.data to set the request body and headers as follows:
-        const { data } = await axios.delete('/api/chats/delete', {
+        const { data } = await axios.delete('https://talktive.onrender.com/api/chats/delete', {
             headers: {
                 'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
             },

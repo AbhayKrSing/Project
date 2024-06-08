@@ -87,7 +87,7 @@ const Signup = () => {
         }
         else {
             setloading(true)
-            axios.post("api/user", {
+            axios.post("https://talktive.onrender.com/api/user", {
                 name: name,
                 email: email,
                 password: password,

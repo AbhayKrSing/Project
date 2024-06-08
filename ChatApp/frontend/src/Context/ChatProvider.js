@@ -69,7 +69,7 @@ const ChatState = ({ children }) => {
     const accessChats = async (UserId) => {
         setload(true)
         try {
-            const { data } = await axios.post('/api/chats', {
+            const { data } = await axios.post('https://talktive.onrender.com/api/chats', {
                 "userId": UserId
             }, {
                 headers: {
@@ -116,7 +116,7 @@ const ChatState = ({ children }) => {
     //fetch all Chats of Logined User
     const fetchChats = async () => {
         setload(true)
-        const response = await axios.get("/api/chats", {
+        const response = await axios.get("https://talktive.onrender.com/api/chats", {
             headers: {
                 'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
             }
@@ -149,7 +149,7 @@ const ChatState = ({ children }) => {
             return element._id
         })
         try {
-            const { data } = await axios.post('/api/chats/group', JSON.stringify({
+            const { data } = await axios.post('https://talktive.onrender.com/api/chats/group', JSON.stringify({
                 name: groupChatName,
                 users: JSON.stringify(PeoplesId)
             }), {
@@ -172,7 +172,7 @@ const ChatState = ({ children }) => {
         setload(true)
         if (identifier === 'People') {
             try {
-                const { data } = await axios.put('/api/chats/groupadd_remove', JSON.stringify({
+                const { data } = await axios.put('https://talktive.onrender.com/api/chats/groupadd_remove', JSON.stringify({
                     chatId: selectChat._id,
                     UserIdToSET: JSON.stringify(People),
                 }), {
@@ -198,7 +198,7 @@ const ChatState = ({ children }) => {
         }
         else if (identifier === 'oneUser') {
             try {
-                await axios.put('/api/chats/groupadd_remove', JSON.stringify({
+                await axios.put('https://talktive.onrender.com/api/chats/groupadd_remove', JSON.stringify({
                     chatId: selectChat._id,
                     UserIdToRemove: user.id,
                 }), {
@@ -230,7 +230,7 @@ const ChatState = ({ children }) => {
     //To all message of GroupChat or one-on-one Chat
     const FetchAllMessages = async () => {
         try {
-            const { data } = await axios.get(`/api/messages/allchats?chatId=${selectChat._id}&GroupChat=${selectChat.isGroupChat}`, {
+            const { data } = await axios.get(`https://talktive.onrender.com/api/messages/allchats?chatId=${selectChat._id}&GroupChat=${selectChat.isGroupChat}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'auth-token': user.token

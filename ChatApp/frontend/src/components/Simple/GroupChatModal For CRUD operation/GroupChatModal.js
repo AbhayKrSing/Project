@@ -37,7 +37,7 @@ const GroupChatModal = () => {
             return
         }
         try {
-            const { data } = await axios.put('/api/chats/rename', JSON.stringify({
+            const { data } = await axios.put('https://talktive.onrender.com/api/chats/rename', JSON.stringify({
                 id: selectChat._id,
                 ChatName: value
             }),

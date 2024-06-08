@@ -29,7 +29,7 @@ const GroupChatModel = ({ children }) => {
     const handlechange = async (value, identity) => {
         if (identity === 'search') {
             if (value && value !== null) {
-                const { data } = await axios.get(`/api/user?search=${value}`, {
+                const { data } = await axios.get(`https://talktive.onrender.com/api/user?search=${value}`, {
                     headers: {
                         'auth-token': JSON.parse(localStorage.getItem('UserInfo')).token
                     }
