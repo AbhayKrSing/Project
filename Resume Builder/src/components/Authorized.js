@@ -29,7 +29,7 @@ const Authorized = (props) => {
       props.setedit({ name: data.Name, email: data.Email, work: data.Work, phone: data.Phone, Address: data.Address, website: data.Website, summary: data.Summary, education: data.Education, skills: data.skills, pic: data.pic })
     })
 
-
+    // eslint-disable-next-line
   }, [])
   const handleclick = (no) => {
     navigate(`/auth/resume` + no)
