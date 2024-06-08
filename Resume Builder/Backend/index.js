@@ -17,8 +17,8 @@ app.use('/user', UserRoute)
 app.get('/', (req, res) => {
     res.send('hello')
 })
-app.listen(PORT = 5000, () => {
-    console.log(`Server is Running at ${PORT}`.yellow.bold)
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is Running at ${process.env.PORT}`.yellow.bold)
 })
 
 

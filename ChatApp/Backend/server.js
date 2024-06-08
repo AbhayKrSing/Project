@@ -20,8 +20,8 @@ app.use('/api/messages', MessageRoutes)
 
 
 app.use(handleUnknownAPI)  //Applied in last because we want to run it in last
-const server = app.listen(process.env.SERVER_HOST, () => {
-    console.log('Server is running on 5000'.yellow.bold)
+const server = app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is running on ${process.env.PORT}`.yellow.bold)
 })
 
 //setting socketio in backend side
@@ -30,9 +30,34 @@ const io = require('socket.io')(server, {
     cors: {
         origin: ['http://localhost:3000']
     },
-    pingTimeout: 6000
 })
 
 io.on('connection', (socket) => {
     console.log('connect with socket having id :' + socket.id)
+    socket.on('join-room', (room, callback) => {
+        socket.join(room)
+        callback(room)
+    })
+    socket.on('send-message', (message, room) => {
+        socket.to(room).timeout(60000).emit('receive-message', message, (error, messages) => {   //1st parameter is error while 2nd parameter is response that given to callback.
+            if (!error) {
+                console.log(`Your ${messages} is sent successfully`)
+            }
+            else {
+                console.log(error)
+            }
+        })          //callback error le rha hai.(isliye abhi nhi dala )
+    })
+    socket.on('Typing', (message, room) => {
+        if (message.length >= 0 && room) {
+            socket.to(room).timeout(60000).emit('Typing-message', message, (error, response) => {
+                if (!error) {
+                    console.log(response[0])
+                }
+                else {
+                    console.log(error)
+                }
+            })
+        }
+    })
 })
